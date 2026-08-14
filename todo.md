@@ -1,3 +1,9 @@
 - [x] Localizar ocorrências visíveis de “Syous” na página.
 - [x] Substituir o nome por “Dharen” e validar a compilação.
-- [ ] Salvar e entregar a versão atualizada.
+- [x] Salvar e entregar a versão atualizada.
+- [x] Definir os vínculos narrativos de Dharen com Kael, Lyra e Mira.
+- [x] Criar a seção interativa de relações e a frase revelada no retrato de Dharen.
+- [x] Implementar e validar o pop-up de leitura do primeiro capítulo.
+- [x] Mapear arquivos e dependências da versão React atual.
+- [x] Migrar a experiência para Nuxt com `ssr: false`.
+- [x] Executar a geração estática e validar a saída Nuxt.
