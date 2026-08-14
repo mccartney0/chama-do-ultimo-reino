@@ -1,0 +1,3 @@
+- [x] Localizar ocorrências visíveis de “Syous” na página.
+- [x] Substituir o nome por “Dharen” e validar a compilação.
+- [ ] Salvar e entregar a versão atualizada.

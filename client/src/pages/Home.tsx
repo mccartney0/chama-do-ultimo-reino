@@ -24,7 +24,7 @@ import {
 const art = {
   logo: "/manus-storage/chama-runa-logo_a302cb42.png",
   archive: "/manus-storage/asterion-archive-banner_021f31f5.jpg",
-  kaelSyous: "/manus-storage/kael-syous-ruinas_7e5cf145.png",
+  kaelDharen: "/manus-storage/kael-syous-ruinas_7e5cf145.png",
   companhia: "/manus-storage/companhia-asterion_19ba22a6.png",
   grimoire: "/manus-storage/grimorio-vigilia_f8d5944b.jpg",
   north: "/manus-storage/casa-sem-sol_808eab53.jpg",
@@ -48,11 +48,11 @@ const characters = [
     tone: "blue",
   },
   {
-    name: "Syous Varenn",
+    name: "Dharen Varenn",
     role: "O Caminhante de Prata",
     mark: "SV · 39",
     description:
-      "Viajante, caçador de criaturas e especialista em decisões questionáveis. Syous luta com energia mística e uma espada rúnica; por trás do humor, carrega a culpa de um passado que a Coroa preferiria enterrar.",
+      "Viajante, caçador de criaturas e especialista em decisões questionáveis. Dharen luta com energia mística e uma espada rúnica; por trás do humor, carrega a culpa de um passado que a Coroa preferiria enterrar.",
     detail: "Herança: Varenn · Arte: energia mística · Marca: prata",
     tone: "gold",
   },
@@ -95,7 +95,7 @@ const chapters = [
     id: "03",
     label: "O vínculo",
     title: "Quatro Caminhos, Uma Vigília",
-    text: "Kael e Syous atravessam um ritual antigo e passam a compartilhar intenção. O Laço Astral não entrega força: torna impossível ignorar o que o outro carrega.",
+    text: "Kael e Dharen atravessam um ritual antigo e passam a compartilhar intenção. O Laço Astral não entrega força: torna impossível ignorar o que o outro carrega.",
     sigil: "V",
   },
   {
@@ -211,7 +211,7 @@ export default function Home() {
 
           <div className="hero-art-frame">
             <span className="art-index">ARQ. 00 / VIGÍLIA</span>
-            <img src={art.kaelSyous} alt="Kael e Syous entre as ruínas de Asterion" />
+            <img src={art.kaelDharen} alt="Kael e Dharen entre as ruínas de Asterion" />
             <div className="art-edge-note">Fogo azul<br />e prata</div>
             <span className="frame-corner corner-tl" /><span className="frame-corner corner-br" />
           </div>
@@ -238,7 +238,7 @@ export default function Home() {
           </div>
           <div className="story-body">
             <p className="dropcap">Asterion queimou quando Malgor, o Rei das Cinzas, atravessou a morte. Cinco guerreiros o selaram usando um cristal que se partiu em três, jurando esconder os fragmentos antes que o rei pudesse retornar.</p>
-            <p>Oito séculos depois, em uma vila pequena demais para guardar segredos, Kael descobre que a magia azul em suas mãos não é acidente. Ao lado de Syous, um viajante com uma espada rúnica e memórias que não conta, ele parte por estradas onde a Coroa já procura seu nome.</p>
+            <p>Oito séculos depois, em uma vila pequena demais para guardar segredos, Kael descobre que a magia azul em suas mãos não é acidente. Ao lado de Dharen, um viajante com uma espada rúnica e memórias que não conta, ele parte por estradas onde a Coroa já procura seu nome.</p>
             <p>Entre bibliotecas esquecidas, montanhas construídas para esconder uma Essência e uma cidade que se recusa a obedecer ao seu antigo trono, a travessia de Kael revela que a maior prisão pode ser a história escrita por quem tinha poder para vencê-la.</p>
             <button className="inline-link" onClick={() => scrollToId("livro")}>Ver o percurso do Livro I <ArrowDownRight size={17} /></button>
           </div>
@@ -298,7 +298,7 @@ export default function Home() {
             <div className="character-pip-row" aria-hidden="true">{characters.map((_, index) => <i className={activeCharacter === index ? "active" : ""} key={index} />)}</div>
           </article>
           <div className="companions-art">
-            <img src={art.companhia} alt="Kael, Syous, Lyra e Mira diante das ruínas de Asterion" />
+            <img src={art.companhia} alt="Kael, Dharen, Lyra e Mira diante das ruínas de Asterion" />
             <div className="companions-label"><span>Companhia em trânsito</span><strong>ASTERION · APÓS A QUEDA</strong></div>
           </div>
         </div>

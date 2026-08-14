@@ -32,7 +32,7 @@
 4. **Matéria e vestígio:** linhas de runas, grão sutil, bordas queimadas e detalhes de selo dão densidade tátil sem transformar a interface em decoração excessiva.
 
 ### Filosofia de cor
-O **preto de cinza** cria o silêncio e o perigo de Asterion; o **marfim de papel antigo** torna os trechos literários acolhedores e legíveis; o **azul-chama** representa Kael e a memória; e o **ouro de brasa** aparece em pequenas ações e no poder de Syous. As cores vivas são raras e, por isso, carregam significado narrativo.
+O **preto de cinza** cria o silêncio e o perigo de Asterion; o **marfim de papel antigo** torna os trechos literários acolhedores e legíveis; o **azul-chama** representa Kael e a memória; e o **ouro de brasa** aparece em pequenas ações e no poder de Dharen. As cores vivas são raras e, por isso, carregam significado narrativo.
 
 ### Paradigma de layout
 Uma **mesa de arquivo em camadas**: a abertura é uma composição de arte vertical e tipografia deslocada; as seções seguintes parecem folhas e fichas sobrepostas em um fundo mineral. Em desktop, cada bloco alterna uma coluna de leitura longa com uma coluna de evidência visual ou metadados. Em dispositivos pequenos, a leitura passa para uma única trilha contínua sem perder as notas laterais.
