@@ -25,3 +25,7 @@
 - [x] Preparar as obras e legendas da galeria conceitual.
 - [x] Implementar modais, sigilos e navegação da galeria no Nuxt.
 - [x] Validar os novos fluxos e a saída estática.
+- [x] Selecionar cenários e criaturas centrais para os registros de Asterion.
+- [x] Preparar ilustrações e descrições curtas para a nova seção.
+- [x] Implementar a galeria explorável de cenários e criaturas.
+- [x] Validar a nova seção na versão estática.

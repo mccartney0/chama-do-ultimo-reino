@@ -80,3 +80,4 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - A **rota dourada** é uma trilha cerimonial ininterrupta, com marcos rúnicos que cruzam as seções, os CTAs e as fichas do arquivo.
 - Toda arte de personagem é enquadrada como **evidência recuperada**: placas de dossiê, marcas de procedência, anotações e bordas de impressão desgastada substituem cartões genéricos.
 - A chama de **três traços rúnicos** é a marca primária: aparece no wordmark, em selos, nos marcadores de percurso e no encerramento da página.
+- Os cenários e as criaturas de Asterion aparecem como **registros de campo**, com classificação, proveniência, moldura cerimonial e descrição de arquivo — nunca como cartões genéricos.

@@ -16,6 +16,10 @@ const art = {
   dharenPortrait: "/manus-storage/dharen-retrato_4f422802.png",
   lyraPortrait: "/manus-storage/lyra-retrato_b043ad7e.png",
   miraPortrait: "/manus-storage/mira-retrato_236b1e36.png",
+  nareth: "/manus-storage/asterion-ruinas-circulares_e3e24642.jpg",
+  asterion: "/manus-storage/asterion-cidade-quebrada_99e3ed07.jpg",
+  ferasCorrompidas: "/manus-storage/asterion-corrompido_a6840b8f.jpg",
+  sentinela: "/manus-storage/asterion-sentinela-sombra_c0f8c591.jpg",
 };
 
 const navigation = [
@@ -69,12 +73,21 @@ const characters = [
 ] as const;
 
 const conceptArt = [
-  { title: "Kael · Fogo azul", note: "Estudo de personagem · 01", image: art.kaelPortrait, tone: "blue" },
-  { title: "Dharen · Prata errante", note: "Estudo de personagem · 02", image: art.dharenPortrait, tone: "gold" },
-  { title: "Lyra · Rota do cervo", note: "Estudo de personagem · 03", image: art.lyraPortrait, tone: "moss" },
-  { title: "Mira · A chave", note: "Estudo de personagem · 04", image: art.miraPortrait, tone: "ember" },
-  { title: "A companhia", note: "Registro de travessia · 05", image: art.companhia, tone: "archive" },
+  { title: "Kael · Fogo azul", note: "Estudo de personagem · 01", image: art.kaelPortrait, tone: "blue", description: "O fogo azul não é arma comum: é uma memória que escolheu responder." },
+  { title: "Dharen · Prata errante", note: "Estudo de personagem · 02", image: art.dharenPortrait, tone: "gold", description: "Prata rúnica, estrada longa e a escolha de não atravessar o mundo sozinho." },
+  { title: "Lyra · Rota do cervo", note: "Estudo de personagem · 03", image: art.lyraPortrait, tone: "moss", description: "A arqueira lê a mata, as ruínas e os silêncios antes de cada disparo." },
+  { title: "Mira · A chave", note: "Estudo de personagem · 04", image: art.miraPortrait, tone: "ember", description: "Nenhuma porta parece definitiva quando Mira decide que um registro precisa ser aberto." },
+  { title: "A companhia", note: "Registro de travessia · 05", image: art.companhia, tone: "archive", description: "Quatro caminhos que se encontram diante das ruínas e se recusam a seguir isolados." },
 ] as const;
+
+const asterionRecords = [
+  { title: "Ruínas de Nareth", category: "Cenário", note: "ARQ. NAR · 612", image: art.nareth, tone: "nareth", description: "Um vale circular onde a floresta esconde torres partidas, pontes que terminam no vazio e um templo de pedra negra guardado sob raízes. Os sinos enterrados anunciam que a ruína ainda observa." },
+  { title: "Asterion após a queda", category: "Cenário", note: "ARQ. AST · 800", image: art.asterion, tone: "city", description: "Monumentos, arcos e caminhos cerimoniais persistem entre cinzas e água escura. A cidade não é apenas uma lembrança: suas pedras ainda disputam o direito de definir o futuro." },
+  { title: "Feras marcadas", category: "Criatura", note: "BEST. C-08", image: art.ferasCorrompidas, tone: "beast", description: "Animais corrompidos surgem além das ruínas antigas, com placas cinzentas no peito e a marca negra da coroa entre três chamas. São rastros de uma corrupção que já não respeita fronteiras." },
+  { title: "Sentinela de sombra", category: "Criatura", note: "BEST. S-03", image: art.sentinela, tone: "sentinel", description: "Estudo conceitual de uma presença vista nas rotas seladas: pedra, fumaça e vigília antiga reunidas sob os arcos desabados. Onde ela permanece, a passagem exige cautela." },
+] as const;
+
+const allArtwork = [...conceptArt, ...asterionRecords] as const;
 
 const chapters = [
   { id: "01", label: "A faísca", title: "Coisas que um Ferreiro Não Deveria Fazer", text: "Em Ferrosul, Kael aprende que magia, botas incendiadas e segredos de família raramente terminam bem. Quando a Coroa chega, fugir deixa de ser escolha." },
@@ -119,7 +132,7 @@ const selectedCharacter = computed(() => characters[activeCharacter.value]);
 const selectedChapter = computed(() => chapters[activeChapter.value]);
 const selectedRelation = computed(() => relations[activeRelation.value]);
 const chapterProgress = computed(() => ((activeChapter.value + 1) / chapters.length) * 100);
-const selectedArtwork = computed(() => activeArtwork.value === null ? null : conceptArt[activeArtwork.value]);
+const selectedArtwork = computed(() => activeArtwork.value === null ? null : allArtwork[activeArtwork.value]);
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -283,8 +296,14 @@ onBeforeUnmount(() => {
       <div class="art-grid"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="activeArtwork = index"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
     </section>
 
+    <section id="asterion" class="asterion-gallery section-pad">
+      <div class="section-rail"><span>05</span><i /><small>Mapas, ruínas e ameaças</small></div>
+      <div class="asterion-heading"><div><p class="eyebrow dark"><span />Registros de Asterion</p><h2>O mundo que ainda<br /><em>lembra de queimar.</em></h2></div><p>Quatro peças de arquivo para atravessar as ruínas, reconhecer suas marcas e observar as presenças que a Coroa deixou escapar.</p></div>
+      <div class="asterion-records"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="activeArtwork = conceptArt.length + index"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
+    </section>
+
     <section id="relacoes" class="relations-section section-pad">
-      <div class="section-rail section-rail-light"><span>05</span><i /><small>Vínculos em movimento</small></div>
+      <div class="section-rail section-rail-light"><span>06</span><i /><small>Vínculos em movimento</small></div>
       <div class="relations-heading"><div><p class="eyebrow"><span />Arquivo de Dharen</p><h2>O caminho de um homem<br />é feito de <em>quem fica.</em></h2></div><p>Selecione uma marca para percorrer os vínculos que Dharen constrói na travessia.</p></div>
       <div class="relation-stage">
         <figure class="dharen-portrait" tabindex="0" aria-label="Retrato de Dharen; passe o mouse para revelar uma frase">
@@ -300,7 +319,7 @@ onBeforeUnmount(() => {
     </section>
 
     <section id="livro" class="book-section section-pad">
-      <div class="section-rail section-rail-light"><span>06</span><i /><small>Livro I · A travessia</small></div>
+      <div class="section-rail section-rail-light"><span>07</span><i /><small>Livro I · A travessia</small></div>
       <div class="book-heading"><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
       <div class="book-layout"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
     </section>
@@ -322,10 +341,9 @@ onBeforeUnmount(() => {
 
     <footer><a href="#top" @click.prevent="scrollToId('top')"><img :src="art.logo" alt="" />A Chama do Último Reino</a><span>Livro I · arquivo recuperado</span><button type="button" @click="scrollToId('top')">Voltar ao início ↑</button></footer>
 
-    <div v-if="showChapterModal" class="chapter-modal-backdrop" role="presentation" @click.self="showChapterModal = false"><section class="chapter-modal" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title"><button class="modal-close" type="button" aria-label="Fechar leitura" @click="showChapterModal = false">×</button><p class="eyebrow dark"><span />Leitura de amostra</p><p class="modal-kicker">Capítulo I · Coisas que um Ferreiro Não Deveria Fazer</p><h2 id="chapter-modal-title">Uma bota incendiada<br />é um mau começo.</h2><div class="modal-rule"><i />Ferrosul · Registro inicial<i /></div><div class="chapter-excerpt"><p class="dropcap">Kael sabia três coisas sobre magia.</p><p>A primeira era que magos de verdade usavam cajados. A segunda era que magos de verdade passavam anos estudando em torres distantes, cercados por livros, velas e professores extremamente velhos.</p><p>E a terceira era que magos de verdade definitivamente não incendiavam as próprias botas tentando esquentar uma caneca de chá.</p><p>— Está queimando.</p><p>Kael continuou olhando para as próprias mãos.</p><p>— Eu sei.</p><p>— Sua bota.</p></div><button class="modal-end" type="button" @click="showChapterModal = false">Fechar a leitura <span>×</span></button></section></div>
     <div v-if="showBioModal" class="chapter-modal-backdrop bio-backdrop" role="presentation" @click.self="showBioModal = false"><section class="chapter-modal bio-modal" :class="`bio-${selectedCharacter.tone}`" role="dialog" aria-modal="true" :aria-labelledby="`bio-${selectedCharacter.sigil}`"><button class="modal-close" type="button" aria-label="Fechar biografia" @click="showBioModal = false">×</button><div class="bio-modal-head"><i class="character-sigil bio-sigil" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i><div><p class="eyebrow dark"><span />Registro individual</p><p class="modal-kicker">{{ selectedCharacter.archive }}</p></div></div><h2 :id="`bio-${selectedCharacter.sigil}`">{{ selectedCharacter.name }}</h2><p class="bio-role">{{ selectedCharacter.role }} · {{ selectedCharacter.sigilName }}</p><div class="bio-layout"><img :src="selectedCharacter.image" :alt="`Retrato de ${selectedCharacter.name}`" /><div class="bio-copy"><p v-for="paragraph in selectedCharacter.biography" :key="paragraph">{{ paragraph }}</p><div class="bio-fact">{{ selectedCharacter.detail }}</div></div></div><button class="modal-end" type="button" @click="showBioModal = false">Fechar registro <span>×</span></button></section></div>
 
-    <div v-if="selectedArtwork" class="chapter-modal-backdrop artwork-backdrop" role="presentation" @click.self="activeArtwork = null"><figure class="artwork-modal" role="dialog" aria-modal="true" :aria-labelledby="`artwork-${activeArtwork}`"><button class="modal-close" type="button" aria-label="Fechar obra" @click="activeArtwork = null">×</button><img :src="selectedArtwork.image" :alt="selectedArtwork.title" /><figcaption><span>{{ selectedArtwork.note }}</span><h2 :id="`artwork-${activeArtwork}`">{{ selectedArtwork.title }}</h2><p>Arquivo da Vigília · estudo conceitual recuperado.</p></figcaption></figure></div>
+    <div v-if="selectedArtwork" class="chapter-modal-backdrop artwork-backdrop" role="presentation" @click.self="activeArtwork = null"><figure class="artwork-modal" role="dialog" aria-modal="true" :aria-labelledby="`artwork-${activeArtwork}`"><button class="modal-close" type="button" aria-label="Fechar obra" @click="activeArtwork = null">×</button><img :src="selectedArtwork.image" :alt="selectedArtwork.title" /><figcaption><span>{{ 'category' in selectedArtwork ? `${selectedArtwork.category} · ${selectedArtwork.note}` : selectedArtwork.note }}</span><h2 :id="`artwork-${activeArtwork}`">{{ selectedArtwork.title }}</h2><p>{{ selectedArtwork.description }}</p></figcaption></figure></div>
 
     <div v-if="showChapterModal" class="chapter-modal-backdrop" role="presentation" @click.self="showChapterModal = false"><section class="chapter-modal" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title"><button class="modal-close" type="button" aria-label="Fechar leitura" @click="showChapterModal = false">×</button><p class="eyebrow dark"><span />Leitura de amostra</p><p class="modal-kicker">Capítulo I · Coisas que um Ferreiro Não Deveria Fazer</p><h2 id="chapter-modal-title">Uma bota incendiada<br />é um mau começo.</h2><div class="modal-rule"><i />Ferrosul · Registro inicial<i /></div><div class="chapter-excerpt"><p class="dropcap">Kael sabia três coisas sobre magia.</p><p>A primeira era que magos de verdade usavam cajados. A segunda era que magos de verdade passavam anos estudando em torres distantes, cercados por livros, velas e professores extremamente velhos.</p><p>E a terceira era que magos de verdade definitivamente não incendiavam as próprias botas tentando esquentar uma caneca de chá.</p><p>— Está queimando.</p><p>Kael continuou olhando para as próprias mãos.</p><p>— Eu sei.</p><p>— Sua bota.</p></div><button class="modal-end" type="button" @click="showChapterModal = false">Fechar a leitura <span>×</span></button></section></div>
   </main>
