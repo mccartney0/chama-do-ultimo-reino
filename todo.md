@@ -48,3 +48,7 @@
 - [x] Criar a rota de personagens com acessos aos quatro dossiês individuais.
 - [x] Atualizar o menu principal para apontar para a nova página de personagens.
 - [x] Validar a rota, a responsividade e a geração SSG.
+- [x] Mapear os cabeçalhos da home, da página de personagens, do mapa e dos dossiês.
+- [x] Corrigir o tratamento visual do link Personagens no menu da home.
+- [x] Aplicar uma navegação superior consistente nas páginas internas.
+- [x] Validar os menus em desktop, mobile e na geração estática.

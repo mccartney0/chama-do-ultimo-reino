@@ -31,7 +31,7 @@ watch(() => route.query.regiao, (slug) => { activeRegion.value = findRegionIndex
 
 <template>
   <main class="map-page-shell">
-    <header class="map-page-header"><NuxtLink class="map-page-brand" to="/"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink><NuxtLink class="map-page-return" to="/#mapa">← Voltar ao arquivo</NuxtLink></header>
+    <header class="map-page-header"><NuxtLink class="map-page-brand" to="/"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink><ArchiveTopNav active="mapa" /></header>
 
     <section class="map-page-intro"><div><p class="eyebrow"><span />Carta de expedição · Livro I</p><h1>A rota não aponta<br />o destino. <em>Ela o convoca.</em></h1></div><p>Um registro ampliado da travessia entre as forjas de Ferrosul, as ruínas de Nareth, a cidade quebrada de Asterion e a Casa dos Ecos.</p></section>
 

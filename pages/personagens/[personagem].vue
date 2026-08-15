@@ -67,7 +67,7 @@ useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }))
 
 <template>
   <main class="profile-shell" :class="`profile-${profile.tone}`">
-    <header class="profile-header"><NuxtLink class="profile-brand" to="/"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink><nav aria-label="Navegação do dossiê"><NuxtLink to="/personagens">Personagens</NuxtLink><NuxtLink to="/mapa">Mapa de Asterion</NuxtLink></nav></header>
+    <header class="profile-header"><NuxtLink class="profile-brand" to="/"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink><ArchiveTopNav active="personagens" /></header>
 
     <section class="profile-hero"><div class="profile-title-block"><p class="eyebrow"><span />Registro {{ profile.number }} · {{ profile.archive }}</p><p class="profile-mark">{{ profile.mark }} · {{ profile.sigil }}</p><h1>{{ profile.name }}</h1><p class="profile-role">{{ profile.role }}</p><blockquote>“{{ profile.quote }}”</blockquote></div><figure class="profile-portrait"><img :src="profile.image" :alt="`Retrato de ${profile.name}`" /><figcaption>TESTEMUNHA VIVA · {{ profile.number }}</figcaption></figure></section>
 

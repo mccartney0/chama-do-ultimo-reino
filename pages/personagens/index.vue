@@ -23,7 +23,7 @@ const characters = [
   <main class="characters-index-shell">
     <header class="characters-index-header">
       <NuxtLink class="characters-index-brand" to="/" aria-label="Retornar ao arquivo principal"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink>
-      <nav aria-label="Navegação de personagens"><NuxtLink to="/">Arquivo principal</NuxtLink><NuxtLink to="/mapa">Mapa de Asterion</NuxtLink></nav>
+      <ArchiveTopNav active="personagens" />
     </header>
 
     <section class="characters-index-hero">
