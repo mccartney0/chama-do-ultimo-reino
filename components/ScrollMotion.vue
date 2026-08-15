@@ -22,7 +22,7 @@ function applyParallax() {
   document.querySelectorAll<HTMLElement>(".map-canvas, .route-atlas-canvas").forEach((canvas) => {
     const rect = canvas.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, (window.innerHeight * 0.84 - rect.top) / Math.max(rect.height * 0.7, 1)));
-    const segments = Array.from(canvas.querySelectorAll<SVGPathElement>(".route-pulse, .atlas-route"));
+    const segments = Array.from(canvas.querySelectorAll<SVGPathElement>(".route-mask"));
 
     segments.forEach((segment, index) => {
       const segmentProgress = Math.max(0, Math.min(1, progress * segments.length - index));
@@ -30,7 +30,6 @@ function applyParallax() {
       segment.dataset.routeLength = String(length);
       segment.style.strokeDasharray = String(length);
       segment.style.strokeDashoffset = String(length * (1 - segmentProgress));
-      segment.classList.toggle("route-drawn", segmentProgress > 0.98);
     });
   });
 }
@@ -44,7 +43,7 @@ onMounted(() => {
 
   if (prefersReducedMotion()) {
     revealTargets.forEach((target) => target.classList.add("is-revealed"));
-    document.querySelectorAll<SVGPathElement>(".route-pulse, .atlas-route").forEach((segment) => {
+    document.querySelectorAll<SVGPathElement>(".route-mask").forEach((segment) => {
       const length = segment.getTotalLength();
       segment.style.strokeDasharray = String(length);
       segment.style.strokeDashoffset = "0";

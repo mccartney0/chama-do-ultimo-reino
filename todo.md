@@ -65,3 +65,6 @@
 - [x] Sincronizar o desenho gradual da rota dourada do mapa com a rolagem.
 - [x] Criar transições ritualísticas para registros e dossiês e estilizar o link da carta ampliada.
 - [x] Validar cliques, animações, responsividade, movimento reduzido e SSG.
+- [x] Definir o traçado tracejado e sua composição com o progresso de rolagem.
+- [x] Restaurar as linhas douradas tracejadas e animadas nos mapas da home e da carta ampliada.
+- [x] Validar o contraste, o movimento reduzido e a geração SSG.
