@@ -17,3 +17,6 @@
 - [x] Criar quatro versões individuais coerentes com a arte enviada.
 - [x] Exibir o retrato correspondente ao personagem selecionado na galeria.
 - [x] Validar os retratos e a interação na versão estática.
+- [x] Verificar as URLs efetivas dos quatro retratos no ambiente Nuxt: as quatro referências retornavam 404.
+- [x] Corrigir a origem estática dos retratos individuais.
+- [x] Testar Kael, Dharen, Lyra e Mira na galeria antes da entrega.
