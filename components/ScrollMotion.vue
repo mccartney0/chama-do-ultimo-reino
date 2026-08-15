@@ -18,6 +18,21 @@ function applyParallax() {
     const offset = Math.max(-30, Math.min(30, distance * speed));
     layer.style.setProperty("--scroll-parallax-y", `${offset.toFixed(2)}px`);
   });
+
+  document.querySelectorAll<HTMLElement>(".map-canvas, .route-atlas-canvas").forEach((canvas) => {
+    const rect = canvas.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (window.innerHeight * 0.84 - rect.top) / Math.max(rect.height * 0.7, 1)));
+    const segments = Array.from(canvas.querySelectorAll<SVGPathElement>(".route-pulse, .atlas-route"));
+
+    segments.forEach((segment, index) => {
+      const segmentProgress = Math.max(0, Math.min(1, progress * segments.length - index));
+      const length = Number(segment.dataset.routeLength || segment.getTotalLength());
+      segment.dataset.routeLength = String(length);
+      segment.style.strokeDasharray = String(length);
+      segment.style.strokeDashoffset = String(length * (1 - segmentProgress));
+      segment.classList.toggle("route-drawn", segmentProgress > 0.98);
+    });
+  });
 }
 
 function scheduleParallax() {
@@ -29,6 +44,11 @@ onMounted(() => {
 
   if (prefersReducedMotion()) {
     revealTargets.forEach((target) => target.classList.add("is-revealed"));
+    document.querySelectorAll<SVGPathElement>(".route-pulse, .atlas-route").forEach((segment) => {
+      const length = segment.getTotalLength();
+      segment.style.strokeDasharray = String(length);
+      segment.style.strokeDashoffset = "0";
+    });
     return;
   }
 

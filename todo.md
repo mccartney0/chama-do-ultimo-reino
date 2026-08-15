@@ -60,3 +60,8 @@
 - [x] Implementar revelações progressivas por rolagem nas seções principais.
 - [x] Aplicar parallax sutil no hero e na carta de Asterion sem deslocar o conteúdo de leitura.
 - [x] Validar o movimento em desktop, mobile, preferência reduzida e SSG.
+- [x] Corrigir a área de hover do tooltip para manter a seleção do ponto do mapa clicável.
+- [x] Adicionar indicador lateral de progresso narrativo com seções ativas durante a leitura.
+- [x] Sincronizar o desenho gradual da rota dourada do mapa com a rolagem.
+- [x] Criar transições ritualísticas para registros e dossiês e estilizar o link da carta ampliada.
+- [x] Validar cliques, animações, responsividade, movimento reduzido e SSG.
