@@ -32,4 +32,7 @@
 - [x] Definir as regiões clicáveis, seus registros e a intensidade dos sons de abertura: Ferrosul, Nareth, Asterion e Casa dos Ecos; notas sonoras breves, discretas e acionadas apenas por interação do visitante.
 - [x] Preparar o mapa ilustrado e os efeitos sonoros para os modais.
 - [x] Implementar os hotspots do mapa e o áudio discreto na galeria Nuxt.
-- [ ] Validar a navegação, os modais e o áudio na versão estática.
+- [x] Validar a navegação, os modais e o áudio na versão estática.
+- [x] Definir os textos curtos e os comportamentos de hover para cada ponto do mapa de Asterion.
+- [x] Implementar tooltips acessíveis, com suporte a foco por teclado e movimento reduzido.
+- [x] Validar os estados de hover, foco e toque na experiência responsiva.
