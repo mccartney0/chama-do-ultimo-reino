@@ -78,5 +78,6 @@ useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }))
     <section class="profile-companions"><p class="eyebrow"><span />Outros registros</p><div><h2>A companhia<br /><em>não termina aqui.</em></h2><nav aria-label="Dossiês relacionados"><NuxtLink v-for="companion in companionProfiles" :key="companion.slug" :to="`/personagens/${companion.slug}`" class="companion-link" :class="`companion-${companion.tone}`"><img :src="companion.image" :alt="companion.name" /><span><small>{{ companion.role }}</small><strong>{{ companion.name }}</strong></span><i>↗</i></NuxtLink></nav></div></section>
 
     <footer class="profile-footer"><NuxtLink to="/"><img :src="art.logo" alt="" />Retornar ao arquivo principal</NuxtLink><span>O mundo estava cheio de caminhos.</span></footer>
+    <BackToTop />
   </main>
 </template>

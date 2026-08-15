@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   ssr: false,
   css: ["~/assets/css/main.css", "~/assets/css/refinements.css", "~/assets/css/newsletter-feedback.css", "~/assets/css/character-gallery.css", "~/assets/css/character-archive.css", "~/assets/css/archive-route-refinement.css", "~/assets/css/asterion-records.css", "~/assets/css/asterion-archive-refinement.css", "~/assets/css/asterion-map.css", "~/assets/css/asterion-atlas-page.css", "~/assets/css/asterion-atlas-refinement.css", "~/assets/css/character-dossier-page.css", "~/assets/css/character-dossier-refinement.css", "~/assets/css/characters-index-page.css", "~/assets/css/internal-navigation.css"],
   app: {
+    pageTransition: { name: "archive-page", mode: "out-in" },
     head: {
       htmlAttrs: { lang: "pt-BR" },
       title: "A Chama do Último Reino — Livro I",

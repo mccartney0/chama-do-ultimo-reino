@@ -52,3 +52,7 @@
 - [x] Corrigir o tratamento visual do link Personagens no menu da home.
 - [x] Aplicar uma navegação superior consistente nas páginas internas.
 - [x] Validar os menus em desktop, mobile e na geração estática.
+- [x] Definir os estados acessíveis do menu hambúrguer e o comportamento de fechamento no mobile.
+- [x] Implementar a navegação expansível compartilhada nas páginas internas.
+- [x] Adicionar botão flutuante de voltar ao topo nos dossiês de personagem.
+- [x] Aplicar transições suaves entre seções e validar movimento reduzido, mobile e SSG.
