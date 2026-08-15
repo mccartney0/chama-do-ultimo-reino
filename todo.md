@@ -74,3 +74,10 @@
 - [x] Reinspecionar o indicador lateral sobre as seções de papel claro.
 - [x] Ajustar o contraste dos títulos se ainda houver baixa legibilidade.
 - [x] Validar a correção em tela ampla e salvar a revisão.
+- [x] Definir o escopo, os acionadores e os padrões reutilizáveis da habilidade editorial.
+- [x] Inicializar e documentar a habilidade com o fluxo de construção, evolução e validação.
+- [x] Validar o pacote da habilidade e entregá-lo para instalação.
+- [x] Revisar o dossiê de personagem atual e definir as interações editoriais a aprofundar.
+- [x] Implementar seções interativas, relações e conexões de mapa no dossiê.
+- [x] Validar o dossiê em desktop, mobile, teclado, movimento reduzido e geração SSG.
+- [ ] Salvar a revisão e enviá-la para uma nova branch do repositório.

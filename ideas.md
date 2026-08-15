@@ -86,3 +86,7 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - Nos dossiês, **nomes de personagem e títulos de registro** empregam Cormorant Garamond como voz cerimonial; Manrope permanece funcional e discreta.
 - Retratos são sempre **provas recuperadas**, tratados com placa envelhecida, registro de procedência, grão, bordas rituais e sombra de arquivo — nunca como recorte de estúdio.
 - A rota dourada deve **atravessar os dossiês** e vincular retrato, biografia, regiões e demais registros como uma única travessia documental.
+- A **rota dourada e Azul Vigília** é contínua nos dossiês: uma trilha vertical cerimonial, marcada por runas, conecta hero, biografia, vínculos, regiões e encerramento.
+- A **marca-runa flamejante** reaparece ao longo da rota documental e nas transições de seção; ela deve identificar o universo mesmo fora do cabeçalho.
+- O **Azul Vigília #4B7CFF** é a memória mágica permanente da marca. Tons de personagem permanecem acentos locais e não substituem a assinatura visual principal.
+- Regiões e dossiês cruzados são dispostos como **provas manuseadas em uma mesa de arquivo**, com etiquetas, bordas de impressão, deslocamentos editoriais e marcas de procedência; jamais como uma grade uniforme de produto.
