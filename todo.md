@@ -80,4 +80,4 @@
 - [x] Revisar o dossiê de personagem atual e definir as interações editoriais a aprofundar.
 - [x] Implementar seções interativas, relações e conexões de mapa no dossiê.
 - [x] Validar o dossiê em desktop, mobile, teclado, movimento reduzido e geração SSG.
-- [ ] Salvar a revisão e enviá-la para uma nova branch do repositório.
+- [x] Salvar a revisão e enviá-la para uma nova branch do repositório.
