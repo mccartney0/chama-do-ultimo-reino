@@ -81,3 +81,5 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - Toda arte de personagem é enquadrada como **evidência recuperada**: placas de dossiê, marcas de procedência, anotações e bordas de impressão desgastada substituem cartões genéricos.
 - A chama de **três traços rúnicos** é a marca primária: aparece no wordmark, em selos, nos marcadores de percurso e no encerramento da página.
 - Os cenários e as criaturas de Asterion aparecem como **registros de campo**, com classificação, proveniência, moldura cerimonial e descrição de arquivo — nunca como cartões genéricos.
+- Na carta de expedição, **Cormorant Garamond** domina títulos e nomes de lugares; **Manrope** fica reservado a rótulos, controles e metadados funcionais.
+- Superfícies de seleção são **fichas catalogadas**, com numeração, procedência, carimbo e marcas materiais; nunca assumem a aparência de uma grade genérica de produto.
