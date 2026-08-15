@@ -245,6 +245,7 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="site-shell">
+    <ScrollMotion />
     <div class="reading-progress" :style="{ transform: `scaleX(${progress / 100})` }" aria-hidden="true" />
     <div class="route-spine" aria-hidden="true"><i /><b>✦</b><i /><b>✦</b><i /></div>
 
@@ -268,11 +269,11 @@ onBeforeUnmount(() => {
     </header>
 
     <section id="top" class="hero">
-      <img class="hero-atmosphere" :src="art.archive" alt="Ruínas noturnas de Asterion sob a lua" />
+      <img class="hero-atmosphere" data-parallax="0.045" :src="art.archive" alt="Ruínas noturnas de Asterion sob a lua" />
       <div class="hero-vignette" aria-hidden="true" />
       <div class="ember-specks" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
       <div class="hero-grid">
-        <div class="hero-copy">
+        <div class="hero-copy" data-reveal="left">
           <p class="eyebrow"><span />Arquivo recuperado · Livro I</p>
           <h1><em>A Chama</em><br />do Último Reino</h1>
           <p class="hero-intro">O rei foi selado. A memória não.</p>
@@ -282,7 +283,7 @@ onBeforeUnmount(() => {
             <button class="text-action" type="button" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button>
           </div>
         </div>
-        <div class="hero-art-frame">
+        <div class="hero-art-frame" data-reveal="right" data-reveal-delay="120">
           <span class="art-index">ARQ. 00 / VIGÍLIA</span>
           <img :src="art.kaelDharen" alt="Kael e Dharen entre as ruínas de Asterion" />
           <div class="art-edge-note">Fogo azul<br />e prata</div>
@@ -292,13 +293,13 @@ onBeforeUnmount(() => {
       <button class="hero-scroll" type="button" @click="scrollToId('historia')"><span>Continue a leitura</span><i /></button>
     </section>
 
-    <section class="stat-ribbon" aria-label="Dados sobre o livro">
+    <section class="stat-ribbon" aria-label="Dados sobre o livro" data-reveal>
       <div><strong>800</strong><span>anos de silêncio</span></div><div><strong>12</strong><span>capítulos e epílogo</span></div><div><strong>1</strong><span>rei que não morreu</span></div><div><strong>3</strong><span>fragmentos a proteger</span></div>
     </section>
 
     <section id="historia" class="story-section section-pad">
       <div class="section-rail"><span>01</span><i /><small>O que foi esquecido</small></div>
-      <div class="story-layout">
+      <div class="story-layout" data-reveal>
         <div class="story-lede"><p class="eyebrow dark"><span />A história</p><h2>Quando a chama escolhe<br /><em>um ferreiro.</em></h2></div>
         <div class="story-body">
           <p class="dropcap">Asterion queimou quando Malgor, o Rei das Cinzas, atravessou a morte. Cinco guerreiros o selaram usando um cristal que se partiu em três, jurando esconder os fragmentos antes que o rei pudesse retornar.</p>
@@ -309,14 +310,14 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section class="quote-band" aria-label="Citação do livro">
+    <section class="quote-band" aria-label="Citação do livro" data-reveal>
       <div class="quote-ornament">“</div><blockquote>“O último selo não é uma prisão.<br /><em>É uma escolha.</em>”</blockquote>
       <div class="quote-tools"><span>Casa dos Ecos · Registro final</span><button type="button" @click="copyQuote">{{ copied ? '✓ Copiado' : '▣ Copiar' }}</button></div>
     </section>
 
     <section id="vigilia" class="vigil-section section-pad">
       <div class="section-rail section-rail-light"><span>02</span><i /><small>Entre a memória e o caminho</small></div>
-      <div class="vigil-grid">
+      <div class="vigil-grid" data-reveal>
         <div class="vigil-image-wrap"><img :src="art.grimoire" alt="Grimório e fragmento do cristal de Asterion" /><div class="image-caption">✦ Fragmento de registro — Nareth</div></div>
         <div class="vigil-copy"><p class="eyebrow"><span />A Vigília</p><h2>Nem toda magia<br />quer ser <em>possuída.</em></h2><p>O poder em A Chama do Último Reino não existe para coroar alguém. A Vigília reúne pessoas e vestígios em torno de uma tarefa mais difícil: testemunhar o que aconteceu sem permitir que o passado decida o próximo passo.</p>
           <div class="lore-list"><div><b class="lore-icon blue">✦</b><p><strong>Memória</strong><small>O que ainda pode mudar você.</small></p></div><div><b class="lore-icon gold">⚔</b><p><strong>Essência</strong><small>Aquilo que responde ao que é oferecido.</small></p></div><div><b class="lore-icon ivory">⌁</b><p><strong>Vontade</strong><small>O caminho que alguém escolhe seguir.</small></p></div></div>
@@ -326,8 +327,8 @@ onBeforeUnmount(() => {
 
     <section id="personagens" class="characters-section section-pad">
       <div class="section-rail"><span>03</span><i /><small>Os que seguem</small></div>
-      <div class="characters-heading"><div><p class="eyebrow dark"><span />Personagens</p><h2>Quatro caminhos.<br /><em>Nenhum passa sozinho.</em></h2></div><p>Quando o passado insiste em voltar, a companhia não nasce da profecia — mas da decisão de seguir junto.</p></div>
-      <div class="character-display">
+      <div class="characters-heading" data-reveal><div><p class="eyebrow dark"><span />Personagens</p><h2>Quatro caminhos.<br /><em>Nenhum passa sozinho.</em></h2></div><p>Quando o passado insiste em voltar, a companhia não nasce da profecia — mas da decisão de seguir junto.</p></div>
+      <div class="character-display" data-reveal data-reveal-delay="110">
         <div class="character-tabs" role="tablist" aria-label="Personagens principais"><button v-for="(character, index) in characters" :key="character.name" type="button" :class="{ selected: activeCharacter === index }" role="tab" :aria-selected="activeCharacter === index" @click="activeCharacter = index"><span class="char-number">0{{ index + 1 }}</span><span><span class="character-name-line"><i class="character-sigil" :class="`sigil-${character.sigil}`" aria-hidden="true"><b /><b /><b /></i><strong>{{ character.name }}</strong></span><small>{{ character.role }}</small></span><b>›</b></button></div>
         <article class="character-detail" :class="`tone-${selectedCharacter.tone}`" aria-live="polite"><div class="character-detail-top"><span>{{ selectedCharacter.mark }}</span><span class="detail-sigil"><i class="character-sigil detail-sigil-art" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i></span></div><p class="detail-role">{{ selectedCharacter.role }}</p><h3>{{ selectedCharacter.name }}</h3><p class="detail-description">{{ selectedCharacter.description }}</p><p class="sigil-caption">{{ selectedCharacter.sigilName }}</p><div class="detail-meta">⌖ {{ selectedCharacter.detail }}</div><NuxtLink class="character-dossier-link" :to="`/personagens/${selectedCharacter.slug}`">Abrir dossiê completo <span>↗</span></NuxtLink><div class="character-pip-row" aria-hidden="true"><i v-for="(_, index) in characters" :key="index" :class="{ active: activeCharacter === index }" /></div></article>
         <button class="character-portrait" :class="`portrait-${selectedCharacter.tone}`" type="button" :aria-label="`Ler a biografia de ${selectedCharacter.name}`" @click="showBioModal = true">
@@ -342,29 +343,29 @@ onBeforeUnmount(() => {
 
     <section id="galeria" class="concept-gallery section-pad">
       <div class="section-rail section-rail-light"><span>04</span><i /><small>Vestígios de companhia</small></div>
-      <div class="gallery-heading"><div><p class="eyebrow"><span />Galeria de arquivo</p><h2>Retratos de uma<br /><em>travessia.</em></h2></div><p>Peças conceituais recuperadas da rota entre Ferrosul, Nareth e Asterion. Selecione um estudo para examinar a marca de cada viajante.</p></div>
-      <div class="art-grid"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="openArtwork(index)"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
+      <div class="gallery-heading" data-reveal><div><p class="eyebrow"><span />Galeria de arquivo</p><h2>Retratos de uma<br /><em>travessia.</em></h2></div><p>Peças conceituais recuperadas da rota entre Ferrosul, Nareth e Asterion. Selecione um estudo para examinar a marca de cada viajante.</p></div>
+      <div class="art-grid" data-reveal data-reveal-delay="110"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="openArtwork(index)"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
     </section>
 
     <section id="asterion" class="asterion-gallery section-pad">
       <div class="section-rail"><span>05</span><i /><small>Mapas, ruínas e ameaças</small></div>
-      <div class="asterion-heading"><div><p class="eyebrow dark"><span />Registros de Asterion</p><h2>O mundo que ainda<br /><em>lembra de queimar.</em></h2></div><p>Quatro peças de arquivo para atravessar as ruínas, reconhecer suas marcas e observar as presenças que a Coroa deixou escapar.</p></div>
-      <div class="asterion-records"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="openArtwork(conceptArt.length + index)"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
+      <div class="asterion-heading" data-reveal><div><p class="eyebrow dark"><span />Registros de Asterion</p><h2>O mundo que ainda<br /><em>lembra de queimar.</em></h2></div><p>Quatro peças de arquivo para atravessar as ruínas, reconhecer suas marcas e observar as presenças que a Coroa deixou escapar.</p></div>
+      <div class="asterion-records" data-reveal data-reveal-delay="110"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="openArtwork(conceptArt.length + index)"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
     </section>
 
     <section id="mapa" class="asterion-map-section section-pad">
       <div class="section-rail section-rail-light"><span>06</span><i /><small>Esquema de expedição · sem escala</small></div>
-      <div class="map-heading"><div><p class="eyebrow"><span />Mapa da Vigília</p><h2>Quatro pontos.<br /><em>Uma rota impossível.</em></h2></div><div class="map-heading-actions"><NuxtLink class="map-atlas-link" to="/mapa">Abrir carta ampliada <span>↗</span></NuxtLink><div class="map-sound-control"><span>Som de registro</span><button type="button" :class="{ active: soundEnabled }" :aria-pressed="soundEnabled" @click="soundEnabled = !soundEnabled">{{ soundEnabled ? 'Ativado' : 'Silenciado' }} <i>{{ soundEnabled ? '◖' : '○' }}</i></button></div></div></div>
-      <div class="map-explorer">
-        <div class="map-canvas"><img :src="art.map" alt="Mapa de expedição de Asterion com rotas entre Ferrosul, Nareth, Asterion e Casa dos Ecos" /><svg class="map-route-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="route-ghost" d="M22 31 C38 16 63 16 76 25 S70 55 58 69 S37 78 26 73" /><path class="route-pulse route-pulse-one" d="M22 31 C38 16 63 16 76 25" /><path class="route-pulse route-pulse-two" d="M76 25 S70 55 58 69" /><path class="route-pulse route-pulse-three" d="M58 69 S37 78 26 73" /></svg><span class="map-caption">ARQ. VIG · percurso estimado</span><button v-for="(region, index) in mapRegions" :key="region.name" type="button" class="map-hotspot" :class="[{ active: activeMapRegion === index }, `hotspot-${region.tone}`]" :style="{ left: region.x, top: region.y }" :aria-label="`Selecionar ${region.name}`" :aria-describedby="`map-tooltip-${index}`" @click="selectMapRegion(index)"><i /><span class="map-hotspot-label">{{ region.name }}</span><span :id="`map-tooltip-${index}`" class="map-tooltip" role="tooltip"><small>{{ region.note }}</small><b>{{ region.tooltip }}</b><em>Selecionar registro <span>↗</span></em></span></button></div>
+      <div class="map-heading" data-reveal><div><p class="eyebrow"><span />Mapa da Vigília</p><h2>Quatro pontos.<br /><em>Uma rota impossível.</em></h2></div><div class="map-heading-actions"><NuxtLink class="map-atlas-link" to="/mapa">Abrir carta ampliada <span>↗</span></NuxtLink><div class="map-sound-control"><span>Som de registro</span><button type="button" :class="{ active: soundEnabled }" :aria-pressed="soundEnabled" @click="soundEnabled = !soundEnabled">{{ soundEnabled ? 'Ativado' : 'Silenciado' }} <i>{{ soundEnabled ? '◖' : '○' }}</i></button></div></div></div>
+      <div class="map-explorer" data-reveal data-reveal-delay="110">
+        <div class="map-canvas"><img data-parallax="0.035" :src="art.map" alt="Mapa de expedição de Asterion com rotas entre Ferrosul, Nareth, Asterion e Casa dos Ecos" /><svg class="map-route-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="route-ghost" d="M22 31 C38 16 63 16 76 25 S70 55 58 69 S37 78 26 73" /><path class="route-pulse route-pulse-one" d="M22 31 C38 16 63 16 76 25" /><path class="route-pulse route-pulse-two" d="M76 25 S70 55 58 69" /><path class="route-pulse route-pulse-three" d="M58 69 S37 78 26 73" /></svg><span class="map-caption">ARQ. VIG · percurso estimado</span><button v-for="(region, index) in mapRegions" :key="region.name" type="button" class="map-hotspot" :class="[{ active: activeMapRegion === index }, `hotspot-${region.tone}`]" :style="{ left: region.x, top: region.y }" :aria-label="`Selecionar ${region.name}`" :aria-describedby="`map-tooltip-${index}`" @click="selectMapRegion(index)"><i /><span class="map-hotspot-label">{{ region.name }}</span><span :id="`map-tooltip-${index}`" class="map-tooltip" role="tooltip"><small>{{ region.note }}</small><b>{{ region.tooltip }}</b><em>Selecionar registro <span>↗</span></em></span></button></div>
         <article class="map-record" :class="`map-${selectedMapRegion.tone}`" aria-live="polite"><img :src="selectedMapRegion.image" :alt="selectedMapRegion.name" /><div><p>{{ selectedMapRegion.note }}</p><h3>{{ selectedMapRegion.name }}</h3><p class="map-description">{{ selectedMapRegion.description }}</p><button type="button" @click="openMapModal">Abrir registro completo <span>↗</span></button></div></article>
       </div>
     </section>
 
     <section id="relacoes" class="relations-section section-pad">
       <div class="section-rail section-rail-light"><span>07</span><i /><small>Vínculos em movimento</small></div>
-      <div class="relations-heading"><div><p class="eyebrow"><span />Arquivo de Dharen</p><h2>O caminho de um homem<br />é feito de <em>quem fica.</em></h2></div><p>Selecione uma marca para percorrer os vínculos que Dharen constrói na travessia.</p></div>
-      <div class="relation-stage">
+      <div class="relations-heading" data-reveal><div><p class="eyebrow"><span />Arquivo de Dharen</p><h2>O caminho de um homem<br />é feito de <em>quem fica.</em></h2></div><p>Selecione uma marca para percorrer os vínculos que Dharen constrói na travessia.</p></div>
+      <div class="relation-stage" data-reveal data-reveal-delay="110">
         <figure class="dharen-portrait" tabindex="0" aria-label="Retrato de Dharen; passe o mouse para revelar uma frase">
           <img :src="art.kaelDharen" alt="Dharen Varenn com espada rúnica em Asterion" />
           <figcaption><span>DV · 39</span><strong>Dharen Varenn</strong></figcaption>
@@ -379,8 +380,8 @@ onBeforeUnmount(() => {
 
     <section id="livro" class="book-section section-pad">
       <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro I · A travessia</small></div>
-      <div class="book-heading"><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
-      <div class="book-layout"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
+      <div class="book-heading" data-reveal><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
+      <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
     </section>
 
     <section class="north-section"><img :src="art.north" alt="Estrada sombria seguindo para o norte" /><div class="north-overlay" /><div class="north-content"><img class="closing-rune" :src="art.logo" alt="" /><p class="eyebrow"><span />Após o Livro I</p><h2>A estrada<br />continua <em>ao norte.</em></h2><p>Uma nova rota, uma ferida impossível e três pessoas que já não podem fingir que não ouviram a chama.</p><button class="button button-primary" type="button" @click="showChapterModal = true">Ler o primeiro capítulo</button></div></section>

@@ -56,3 +56,7 @@
 - [x] Implementar a navegação expansível compartilhada nas páginas internas.
 - [x] Adicionar botão flutuante de voltar ao topo nos dossiês de personagem.
 - [x] Aplicar transições suaves entre seções e validar movimento reduzido, mobile e SSG.
+- [x] Definir a cadência de revelação dos blocos editoriais e as camadas de parallax permitidas.
+- [x] Implementar revelações progressivas por rolagem nas seções principais.
+- [x] Aplicar parallax sutil no hero e na carta de Asterion sem deslocar o conteúdo de leitura.
+- [x] Validar o movimento em desktop, mobile, preferência reduzida e SSG.
