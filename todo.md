@@ -7,3 +7,6 @@
 - [x] Mapear arquivos e dependências da versão React atual.
 - [x] Migrar a experiência para Nuxt com `ssr: false`.
 - [x] Executar a geração estática e validar a saída Nuxt.
+- [x] Definir título, descrição e imagem de pré-visualização para compartilhamento.
+- [x] Adicionar metatags Open Graph e Twitter Cards ao Nuxt.
+- [x] Criar e validar o formulário estático de newsletter.

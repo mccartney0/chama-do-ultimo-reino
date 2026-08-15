@@ -78,6 +78,8 @@ const activeChapter = ref(0);
 const activeRelation = ref(0);
 const copied = ref(false);
 const showChapterModal = ref(false);
+const newsletterEmail = ref("");
+const newsletterState = ref<"idle" | "invalid" | "ready">("idle");
 
 const selectedCharacter = computed(() => characters[activeCharacter.value]);
 const selectedChapter = computed(() => chapters[activeChapter.value]);
@@ -111,6 +113,12 @@ function onScroll() {
 
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Escape") showChapterModal.value = false;
+}
+
+function submitNewsletter() {
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletterEmail.value.trim());
+  newsletterState.value = isValidEmail ? "ready" : "invalid";
+  if (isValidEmail) newsletterEmail.value = "";
 }
 
 onMounted(() => {
@@ -239,6 +247,18 @@ onBeforeUnmount(() => {
     </section>
 
     <section class="north-section"><img :src="art.north" alt="Estrada sombria seguindo para o norte" /><div class="north-overlay" /><div class="north-content"><img class="closing-rune" :src="art.logo" alt="" /><p class="eyebrow"><span />Após o Livro I</p><h2>A estrada<br />continua <em>ao norte.</em></h2><p>Uma nova rota, uma ferida impossível e três pessoas que já não podem fingir que não ouviram a chama.</p><button class="button button-primary" type="button" @click="showChapterModal = true">Ler o primeiro capítulo</button></div></section>
+
+    <section id="novidades" class="newsletter-section section-pad">
+      <div class="newsletter-stamp" aria-hidden="true">✦<span>VIGÍLIA</span>✦</div>
+      <div class="newsletter-copy"><p class="eyebrow dark"><span />Correspondência da Vigília</p><h2>Quando a estrada<br />seguir, <em>saiba primeiro.</em></h2><p>Receba notícias do Livro I, novos trechos e os próximos registros recuperados de Asterion.</p></div>
+      <form class="newsletter-form" novalidate @submit.prevent="submitNewsletter">
+        <label for="newsletter-email">Seu endereço de e-mail</label>
+        <div class="newsletter-field"><input id="newsletter-email" v-model="newsletterEmail" type="email" name="email" autocomplete="email" placeholder="seu@email.com" :aria-invalid="newsletterState === 'invalid'" required /><button type="submit">Entrar na Vigília <span>↗</span></button></div>
+        <p v-if="newsletterState === 'invalid'" class="form-feedback is-error" aria-live="polite">Informe um endereço de e-mail válido.</p>
+        <p v-else-if="newsletterState === 'ready'" class="form-feedback is-success" aria-live="polite">Interesse registrado nesta prévia. Conecte um serviço de e-mail para receber novas inscrições.</p>
+        <p v-else class="form-note">Formulário estático. Nenhuma mensagem é enviada sem sua confirmação.</p>
+      </form>
+    </section>
 
     <footer><a href="#top" @click.prevent="scrollToId('top')"><img :src="art.logo" alt="" />A Chama do Último Reino</a><span>Livro I · arquivo recuperado</span><button type="button" @click="scrollToId('top')">Voltar ao início ↑</button></footer>
 

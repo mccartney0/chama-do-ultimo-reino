@@ -71,3 +71,9 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 
 ### Cor de assinatura
 **Azul Vigília — #4B7CFF.** Um azul elétrico, mineral e frio que só aparece na chama, nas runas e em estados de foco; é a impressão visual imediata de A Chama do Último Reino.
+
+## Style Decisions
+
+- O **Azul Vigília** permanece reservado à chama, às runas, ao foco e às palavras encantadas. Ações primárias usam papel, selo e ouro de brasa.
+- A **linha de percurso dourada** funciona como fio narrativo contínuo: conecta os marcos da travessia, em vez de aparecer apenas como ornamento local.
+- Cartelas alternam **personagens, documentos, objetos, sigilos e fragmentos**; grão mineral, coordenadas e selos acrescentam materialidade sem competir com a leitura.

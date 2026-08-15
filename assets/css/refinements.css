@@ -1,0 +1,26 @@
+/*
+ * Arquivo das Cinzas — refinamentos de assinatura.
+ * A rota dourada conduz a leitura; Azul Vigília permanece um evento mágico, nunca um CTA padrão.
+ */
+.reading-progress{background:linear-gradient(90deg,var(--gold),#efd19c 64%,var(--gold))}
+.route-spine{left:3.05vw;width:20px;opacity:.94}
+.route-spine::before{position:absolute;top:-28px;bottom:-28px;left:50%;width:24px;content:"";border-right:1px solid rgba(223,170,98,.12);border-left:1px solid rgba(223,170,98,.12);transform:translateX(-50%)}
+.route-spine i{width:2px;min-height:90px;background:linear-gradient(180deg,transparent,var(--gold) 17%,var(--gold) 83%,transparent);box-shadow:0 0 10px rgba(223,170,98,.52)}
+.route-spine b{position:relative;z-index:1;width:20px;height:20px;background:#171b20;border:1px solid rgba(223,170,98,.5);transform:rotate(45deg)}
+.button-primary{color:#211d18;background:#e3c18a;box-shadow:0 8px 23px rgba(76,50,20,.28)}
+.button-primary:hover{background:#f0d3a0}
+.text-action:hover{color:var(--gold);border-color:var(--gold)}
+.story-section::after,.characters-section::after{position:absolute;right:6vw;bottom:18px;color:rgba(119,99,66,.7);content:"REGISTRO · ASTR. 801 · PÁGINA RECUPERADA";font-size:8px;font-weight:800;letter-spacing:.17em}
+.section-rail::after{content:"✦ · ᚱ · ✦"}
+.character-detail{background-color:#202933;background-image:radial-gradient(rgba(255,255,255,.055) .7px,transparent .9px),linear-gradient(110deg,transparent 0 76%,rgba(170,197,255,.08) 76% 76.4%,transparent 76.4%);background-size:5px 5px,100% 100%}
+.character-detail.tone-gold{background-color:#35322d}.character-detail.tone-moss{background-color:#29312d}.character-detail.tone-ember{background-color:#3a2d2b}
+.companions-art::after{position:absolute;top:12px;right:12px;width:27px;height:27px;content:"";border-top:1px solid rgba(223,170,98,.75);border-right:1px solid rgba(223,170,98,.75)}
+.dharen-portrait::before{position:absolute;z-index:2;top:14px;left:14px;display:grid;place-items:center;width:35px;height:35px;content:"✦";color:var(--gold);border:1px solid rgba(223,170,98,.58);font-size:13px;transform:rotate(45deg)}
+.relation-card{background-color:#222d3c;background-image:radial-gradient(rgba(230,237,255,.04) .7px,transparent .9px);background-size:5px 5px}
+.relation-card.relation-moss{background-color:#253029}.relation-card.relation-ember{background-color:#372a29}
+.chapter-detail{position:relative;background-color:#e3dbcd;background-image:radial-gradient(rgba(55,49,39,.1) .7px,transparent .9px),linear-gradient(100deg,transparent 0 88%,rgba(75,63,40,.06) 88% 89%,transparent 89%);background-size:5px 5px,100% 100%}
+.chapter-detail::after{position:absolute;right:18px;bottom:17px;color:#756b5c;content:"SELO · I";font-size:8px;font-weight:800;letter-spacing:.13em}
+.newsletter-section{background-color:#ded6c7;background-image:radial-gradient(rgba(39,36,30,.13) .7px,transparent .8px),linear-gradient(100deg,transparent 0 90%,rgba(76,66,45,.06) 90% 91%,transparent 91%);background-size:5px 5px,100% 100%}
+.newsletter-stamp{padding:7px 9px;border:1px solid rgba(80,70,54,.4);transform:rotate(-2deg)}
+.newsletter-field button:hover{color:#91652d}
+@media(max-width:840px){.route-spine{display:none}.story-section::after,.characters-section::after{right:7vw}.chapter-detail::after{display:none}}
