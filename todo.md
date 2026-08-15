@@ -81,3 +81,8 @@
 - [x] Implementar seções interativas, relações e conexões de mapa no dossiê.
 - [x] Validar o dossiê em desktop, mobile, teclado, movimento reduzido e geração SSG.
 - [x] Salvar a revisão e enviá-la para uma nova branch do repositório.
+- [x] Definir a estratégia de exportação local do dossiê em PDF e imagem.
+- [x] Implementar controles de exportação com estados de processamento, sucesso e erro.
+- [x] Refinar hovers e transições nas relações, cartões de região e registros relacionados.
+- [x] Validar exportação, acessibilidade, mobile, movimento reduzido e geração SSG.
+- [ ] Salvar e entregar a revisão de exportação do dossiê.

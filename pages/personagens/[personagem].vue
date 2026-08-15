@@ -1,6 +1,6 @@
 <!-- Arquivo das Cinzas — dossiês individuais: retrato, testemunho, vínculos de rota e navegação entre sobreviventes. -->
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref } from "vue";
 
 const route = useRoute();
 
@@ -87,16 +87,86 @@ const profile = computed(() => profiles.find((item) => item.slug === String(rout
 const companionProfiles = computed(() => profile.value.companions.map((slug) => profiles.find((item) => item.slug === slug)).filter((item): item is (typeof profiles)[number] => Boolean(item)));
 const activeBond = ref(0);
 const selectedBond = computed(() => profile.value.bonds[activeBond.value] ?? profile.value.bonds[0]);
+type ExportFormat = "pdf" | "image";
+type ExportStatus = "idle" | "loading" | "success" | "error";
+const isBondLoading = ref(false);
+const exportStatus = ref<ExportStatus>("idle");
+const exportFormat = ref<ExportFormat | null>(null);
+let bondLoadingTimer: ReturnType<typeof setTimeout> | undefined;
+let exportResetTimer: ReturnType<typeof setTimeout> | undefined;
 
 function selectBond(index: number) {
+  if (index === activeBond.value || isBondLoading.value) return;
+  if (bondLoadingTimer) window.clearTimeout(bondLoadingTimer);
+  isBondLoading.value = true;
   activeBond.value = index;
+  bondLoadingTimer = window.setTimeout(() => { isBondLoading.value = false; }, 260);
 }
 
 function moveBond(direction: number) {
   const next = (activeBond.value + direction + profile.value.bonds.length) % profile.value.bonds.length;
-  activeBond.value = next;
+  selectBond(next);
   window.setTimeout(() => document.getElementById(`bond-tab-${profile.value.slug}-${next}`)?.focus(), 0);
 }
+
+function makeFileName(extension: "pdf" | "png") {
+  return `dossie-${profile.value.slug}-chama-do-ultimo-reino.${extension}`;
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 300);
+}
+
+async function exportDossier(format: ExportFormat) {
+  if (exportStatus.value === "loading") return;
+  exportStatus.value = "loading";
+  exportFormat.value = format;
+  if (exportResetTimer) window.clearTimeout(exportResetTimer);
+
+  try {
+    await nextTick();
+    const sheet = document.getElementById("dossier-export-sheet");
+    if (!sheet) throw new Error("Folha de exportação não encontrada.");
+    if ("fonts" in document) await document.fonts.ready;
+
+    const { default: html2canvas } = await import("html2canvas");
+    const canvas = await html2canvas(sheet, { backgroundColor: "#e9dfca", logging: false, scale: 2, useCORS: true });
+
+    if (format === "image") {
+      const image = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Não foi possível compor a imagem.")), "image/png");
+      });
+      downloadBlob(image, makeFileName("png"));
+    } else {
+      const { jsPDF } = await import("jspdf");
+      const pdf = new jsPDF({ compress: true, format: [canvas.width, canvas.height], orientation: "portrait", unit: "px" });
+      pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+      pdf.save(makeFileName("pdf"));
+    }
+
+    exportStatus.value = "success";
+  } catch (error) {
+    console.error("Falha ao exportar dossiê", error);
+    exportStatus.value = "error";
+  } finally {
+    exportResetTimer = window.setTimeout(() => {
+      exportStatus.value = "idle";
+      exportFormat.value = null;
+    }, 4200);
+  }
+}
+
+onBeforeUnmount(() => {
+  if (bondLoadingTimer) window.clearTimeout(bondLoadingTimer);
+  if (exportResetTimer) window.clearTimeout(exportResetTimer);
+});
 
 useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }));
 </script>
@@ -111,17 +181,34 @@ useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }))
 
     <section class="profile-dossier" data-reveal><aside class="profile-facts"><p class="eyebrow"><span />Ficha de procedência</p><dl><div><dt>Vínculo</dt><dd>{{ profile.affiliation }}</dd></div><div><dt>Instrumento</dt><dd>{{ profile.instrument }}</dd></div><div><dt>Sigilo</dt><dd>{{ profile.sigil }}</dd></div><div><dt>Registro</dt><dd>{{ profile.archive }}</dd></div></dl></aside><article class="profile-biography"><p class="eyebrow"><span />Biografia recuperada</p><h2>Nem todo caminho<br /><em>começa como escolha.</em></h2><div class="profile-copy"><p v-for="paragraph in profile.bio" :key="paragraph">{{ paragraph }}</p></div></article></section>
 
+    <section class="profile-export" data-reveal aria-labelledby="export-heading">
+      <div class="profile-export-copy"><p class="eyebrow"><span />Lacre de partilha</p><h2 id="export-heading">Leve este<br /><em>registro consigo.</em></h2><p>Crie uma prancha do dossiê de {{ profile.name }} no seu dispositivo. Nenhum dado é enviado: a composição é feita localmente no navegador.</p></div>
+      <div class="profile-export-actions" :class="{ 'is-processing': exportStatus === 'loading' }" :aria-busy="exportStatus === 'loading'">
+        <button type="button" class="export-action export-action-image" :disabled="exportStatus === 'loading'" @click="exportDossier('image')"><span class="export-action-rune" aria-hidden="true">✦</span><span><small>Prancha de arquivo</small><strong>{{ exportStatus === 'loading' && exportFormat === 'image' ? 'Preparando imagem' : 'Baixar imagem' }}</strong></span><i v-if="exportStatus === 'loading' && exportFormat === 'image'" class="export-spinner" aria-hidden="true" /><b v-else>PNG</b></button>
+        <button type="button" class="export-action export-action-pdf" :disabled="exportStatus === 'loading'" @click="exportDossier('pdf')"><span class="export-action-rune" aria-hidden="true">✦</span><span><small>Registro de uma página</small><strong>{{ exportStatus === 'loading' && exportFormat === 'pdf' ? 'Selando PDF' : 'Baixar em PDF' }}</strong></span><i v-if="exportStatus === 'loading' && exportFormat === 'pdf'" class="export-spinner" aria-hidden="true" /><b v-else>PDF</b></button>
+        <p class="export-feedback" :class="`is-${exportStatus}`" role="status" aria-live="polite"><template v-if="exportStatus === 'loading'">O arquivo está sendo composto no seu dispositivo.</template><template v-else-if="exportStatus === 'success'">Registro preparado. O download foi iniciado.</template><template v-else-if="exportStatus === 'error'">Não foi possível preparar o registro. Tente novamente.</template><template v-else>Imagem em PNG ou folha PDF, pronta para partilhar.</template></p>
+      </div>
+    </section>
+
     <section class="profile-bonds" data-reveal>
       <div class="profile-bonds-heading"><div><p class="eyebrow"><span />Mesa de vínculos</p><h2>Quem fica<br /><em>muda a rota.</em></h2></div><p>Selecione uma marca para abrir o vínculo de {{ profile.name }}. Cada registro conduz ao dossiê da pessoa que divide esta travessia.</p></div>
       <div class="bond-console">
         <div class="bond-tabs" role="tablist" :aria-label="`Vínculos de ${profile.name}`"><button v-for="(bond, index) in profile.bonds" :id="`bond-tab-${profile.slug}-${index}`" :key="bond.slug" type="button" role="tab" :class="[{ active: activeBond === index }, `bond-${bond.accent}`]" :aria-selected="activeBond === index" :aria-controls="`bond-panel-${profile.slug}`" @click="selectBond(index)" @keydown.right.prevent="moveBond(1)" @keydown.left.prevent="moveBond(-1)" @keydown.down.prevent="moveBond(1)" @keydown.up.prevent="moveBond(-1)"><span>{{ bond.sigil }}</span><strong>{{ bond.person }}</strong><small>{{ bond.type }}</small></button></div>
-        <article :id="`bond-panel-${profile.slug}`" class="bond-record" :class="`bond-record-${selectedBond.accent}`" role="tabpanel" :aria-labelledby="`bond-tab-${profile.slug}-${activeBond}`" tabindex="0" aria-live="polite"><p>VÍNCULO 0{{ activeBond + 1 }} <span>{{ selectedBond.type }}</span></p><h3>{{ selectedBond.label }}</h3><div class="bond-record-line" aria-hidden="true"><i /><b>{{ profile.mark.split(" · ")[0] }}</b><em>↔</em><b>{{ selectedBond.sigil }}</b><i /></div><p class="bond-record-copy">{{ selectedBond.text }}</p><NuxtLink :to="`/personagens/${selectedBond.slug}`">Abrir dossiê de {{ selectedBond.person }} <span>↗</span></NuxtLink></article>
+        <article :id="`bond-panel-${profile.slug}`" class="bond-record" :class="[{ 'is-loading': isBondLoading }, `bond-record-${selectedBond.accent}`]" role="tabpanel" :aria-labelledby="`bond-tab-${profile.slug}-${activeBond}`" tabindex="0" aria-live="polite" :aria-busy="isBondLoading"><div v-if="isBondLoading" class="bond-record-loading"><i class="export-spinner" aria-hidden="true" /><span>Reabrindo registro…</span></div><p>VÍNCULO 0{{ activeBond + 1 }} <span>{{ selectedBond.type }}</span></p><h3>{{ selectedBond.label }}</h3><div class="bond-record-line" aria-hidden="true"><i /><b>{{ profile.mark.split(" · ")[0] }}</b><em>↔</em><b>{{ selectedBond.sigil }}</b><i /></div><p class="bond-record-copy">{{ selectedBond.text }}</p><NuxtLink :to="`/personagens/${selectedBond.slug}`">Abrir dossiê de {{ selectedBond.person }} <span>↗</span></NuxtLink></article>
       </div>
     </section>
 
     <section class="profile-regions" data-reveal><div class="profile-section-heading"><p class="eyebrow"><span />Vínculos de expedição</p><h2>Regiões que<br /><em>deixaram marca.</em></h2><p>Estas são as geografias que atravessam o registro de {{ profile.name }}. Cada ficha conduz diretamente à carta de Asterion.</p></div><div class="region-links"><NuxtLink v-for="region in profile.regions" :key="region.slug" class="region-link" :to="{ path: '/mapa', query: { regiao: region.slug } }"><img :src="region.image" :alt="region.name" /><span class="region-link-overlay" /><div><small>{{ region.label }} · abrir carta</small><h3>{{ region.name }}</h3><p>{{ region.text }}</p><b>Ver no mapa <i>↗</i></b></div></NuxtLink></div></section>
 
     <section class="profile-companions" data-reveal><p class="eyebrow"><span />Outros registros</p><div><h2>A companhia<br /><em>não termina aqui.</em></h2><nav aria-label="Dossiês relacionados"><NuxtLink v-for="companion in companionProfiles" :key="companion.slug" :to="`/personagens/${companion.slug}`" class="companion-link" :class="`companion-${companion.tone}`"><img :src="companion.image" :alt="companion.name" /><span><small>{{ companion.role }}</small><strong>{{ companion.name }}</strong></span><i>↗</i></NuxtLink></nav></div></section>
+
+    <section id="dossier-export-sheet" class="dossier-export-sheet" aria-hidden="true">
+      <header><img :src="art.logo" alt="" /><div><small>ARQUIVO DAS CINZAS · LIVRO I</small><strong>DOSSIÊ {{ profile.number }} · {{ profile.archive }}</strong></div><span>PRANCHA DE PARTILHA</span></header>
+      <div class="export-sheet-hero"><figure><img :src="profile.image" alt="" /><figcaption>{{ profile.sigil }} · {{ profile.mark }}</figcaption></figure><div><p>{{ profile.role }}</p><h1>{{ profile.name }}</h1><blockquote>“{{ profile.quote }}”</blockquote><dl><div><dt>Vínculo</dt><dd>{{ profile.affiliation }}</dd></div><div><dt>Instrumento</dt><dd>{{ profile.instrument }}</dd></div><div><dt>Registro</dt><dd>{{ profile.archive }}</dd></div></dl></div></div>
+      <div class="export-sheet-copy"><p class="export-sheet-label">BIOGRAFIA RECUPERADA</p><p v-for="paragraph in profile.bio" :key="`sheet-${paragraph}`">{{ paragraph }}</p></div>
+      <div class="export-sheet-bonds"><p>VÍNCULOS DE TRAVESSIA</p><div v-for="bond in profile.bonds" :key="`sheet-${bond.slug}`"><span>{{ bond.sigil }}</span><strong>{{ bond.person }}</strong><small>{{ bond.label }} · {{ bond.type }}</small></div></div>
+      <footer><span>O rei foi selado. A memória não.</span><strong>chama-do-ultimo-reino.manus.space</strong></footer>
+    </section>
 
     <footer class="profile-footer"><NuxtLink to="/"><img :src="art.logo" alt="" />Retornar ao arquivo principal</NuxtLink><span>O mundo estava cheio de caminhos.</span></footer>
     <BackToTop />
