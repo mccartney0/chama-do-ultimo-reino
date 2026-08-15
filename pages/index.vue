@@ -12,6 +12,10 @@ const art = {
   companhia: "/manus-storage/companhia-asterion_0d53947c.png",
   grimoire: "/manus-storage/grimorio-vigilia_27affe06.jpg",
   north: "/manus-storage/casa-sem-sol_f47fcdf4.jpg",
+  kaelPortrait: "/manus-storage/kael-retrato_ae7eda73.png",
+  dharenPortrait: "/manus-storage/dharen-retrato_4f422802.png",
+  lyraPortrait: "/manus-storage/lyra-retrato_b043ad7e.png",
+  miraPortrait: "/manus-storage/mira-retrato_236b1e36.png",
 };
 
 const navigation = [
@@ -24,21 +28,25 @@ const navigation = [
 const characters = [
   {
     name: "Kael Auren", role: "O ferreiro da chama azul", mark: "KA · 19", tone: "blue",
+    image: art.kaelPortrait,
     description: "Um aprendiz de ferreiro de Ferrosul que descobre uma chama azul impossível — e vozes que sabem mais sobre ele do que ele próprio.",
     detail: "Herança: Memória · Arte: fogo azul · Objeto: grimório",
   },
   {
     name: "Dharen Varenn", role: "O Caminhante de Prata", mark: "DV · 39", tone: "gold",
+    image: art.dharenPortrait,
     description: "Viajante, caçador de criaturas e especialista em decisões questionáveis. Dharen luta com energia mística e uma espada rúnica; por trás do humor, carrega a culpa de um passado que a Coroa preferiria enterrar.",
     detail: "Herança: Varenn · Arte: energia mística · Marca: prata",
   },
   {
     name: "Lyra", role: "A arqueira que reconstrói", mark: "LY · CCB", tone: "moss",
+    image: art.lyraPortrait,
     description: "Ex-integrante da Companhia do Cervo Branco, Lyra atravessa as ruínas sem conceder ao passado o direito de decidir tudo.",
     detail: "Arma: arco · Vínculo: Cervo Branco · Norte: reconstrução",
   },
   {
     name: "Mira", role: "A chave sem dentes", mark: "MI · GC", tone: "ember",
+    image: art.miraPortrait,
     description: "Larápia, sobrevivente e dona de uma honestidade seletiva. Mira abre o que ninguém quer que seja aberto — portas, registros e conversas.",
     detail: "Arte: infiltração · Objeto: Chave sem Dentes · Guilda: Caminhos",
   },
@@ -228,7 +236,13 @@ onBeforeUnmount(() => {
       <div class="character-display">
         <div class="character-tabs" role="tablist" aria-label="Personagens principais"><button v-for="(character, index) in characters" :key="character.name" type="button" :class="{ selected: activeCharacter === index }" role="tab" :aria-selected="activeCharacter === index" @click="activeCharacter = index"><span class="char-number">0{{ index + 1 }}</span><span><strong>{{ character.name }}</strong><small>{{ character.role }}</small></span><b>›</b></button></div>
         <article class="character-detail" :class="`tone-${selectedCharacter.tone}`" aria-live="polite"><div class="character-detail-top"><span>{{ selectedCharacter.mark }}</span><span class="detail-sigil">{{ activeCharacter === 0 ? '✦' : activeCharacter === 1 ? '✧' : activeCharacter === 2 ? '◒' : '◇' }}</span></div><p class="detail-role">{{ selectedCharacter.role }}</p><h3>{{ selectedCharacter.name }}</h3><p class="detail-description">{{ selectedCharacter.description }}</p><div class="detail-meta">⌖ {{ selectedCharacter.detail }}</div><div class="character-pip-row" aria-hidden="true"><i v-for="(_, index) in characters" :key="index" :class="{ active: activeCharacter === index }" /></div></article>
-        <div class="companions-art"><img :src="art.companhia" alt="Kael, Dharen, Lyra e Mira diante das ruínas de Asterion" /><div class="companions-label"><span>Companhia em trânsito</span><strong>ASTERION · APÓS A QUEDA</strong></div></div>
+        <div class="character-portrait" :class="`portrait-${selectedCharacter.tone}`" aria-live="polite">
+          <span class="portrait-seal" aria-hidden="true">✦</span>
+          <Transition name="portrait-reveal" mode="out-in">
+            <img :key="selectedCharacter.name" :src="selectedCharacter.image" :alt="`Retrato de ${selectedCharacter.name}`" />
+          </Transition>
+          <div class="portrait-label"><span>Registro individual</span><strong>{{ selectedCharacter.name }} · {{ selectedCharacter.mark }}</strong></div>
+        </div>
       </div>
     </section>
 

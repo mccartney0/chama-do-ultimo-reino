@@ -13,3 +13,7 @@
 - [x] Definir os estados de envio e confirmação da newsletter.
 - [x] Adicionar animação de carregamento e mensagem de sucesso ao formulário.
 - [x] Configurar NUXT_PUBLIC_SITE_URL para a geração estática das metatags.
+- [x] Definir a associação entre cada personagem e seu retrato individual: Lyra à esquerda, Kael ao centro-esquerda, Dharen ao centro e Mira à direita.
+- [x] Criar quatro versões individuais coerentes com a arte enviada.
+- [x] Exibir o retrato correspondente ao personagem selecionado na galeria.
+- [x] Validar os retratos e a interação na versão estática.
