@@ -85,4 +85,8 @@
 - [x] Implementar controles de exportação com estados de processamento, sucesso e erro.
 - [x] Refinar hovers e transições nas relações, cartões de região e registros relacionados.
 - [x] Validar exportação, acessibilidade, mobile, movimento reduzido e geração SSG.
-- [ ] Salvar e entregar a revisão de exportação do dossiê.
+- [x] Salvar e entregar a revisão de exportação do dossiê.
+- [x] Definir o comportamento de compartilhamento nativo e a alternativa de cópia de link.
+- [x] Implementar o botão Web Share API com estados acessíveis de sucesso, cancelamento e erro.
+- [x] Validar o compartilhamento em mobile, a cópia de link no fallback e a geração SSG.
+- [ ] Salvar e entregar a revisão de compartilhamento nativo.

@@ -1,6 +1,6 @@
 <!-- Arquivo das Cinzas — dossiês individuais: retrato, testemunho, vínculos de rota e navegação entre sobreviventes. -->
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 
 const route = useRoute();
 
@@ -89,11 +89,15 @@ const activeBond = ref(0);
 const selectedBond = computed(() => profile.value.bonds[activeBond.value] ?? profile.value.bonds[0]);
 type ExportFormat = "pdf" | "image";
 type ExportStatus = "idle" | "loading" | "success" | "error";
+type ShareStatus = "idle" | "loading" | "success" | "copied" | "cancelled" | "error";
 const isBondLoading = ref(false);
 const exportStatus = ref<ExportStatus>("idle");
 const exportFormat = ref<ExportFormat | null>(null);
+const shareStatus = ref<ShareStatus>("idle");
+const nativeShareAvailable = ref(false);
 let bondLoadingTimer: ReturnType<typeof setTimeout> | undefined;
 let exportResetTimer: ReturnType<typeof setTimeout> | undefined;
+let shareResetTimer: ReturnType<typeof setTimeout> | undefined;
 
 function selectBond(index: number) {
   if (index === activeBond.value || isBondLoading.value) return;
@@ -163,9 +167,76 @@ async function exportDossier(format: ExportFormat) {
   }
 }
 
+function getDossierShareUrl() {
+  return new URL(`/personagens/${profile.value.slug}`, window.location.origin).toString();
+}
+
+function resetShareFeedback() {
+  if (shareResetTimer) window.clearTimeout(shareResetTimer);
+  shareResetTimer = window.setTimeout(() => { shareStatus.value = "idle"; }, 4200);
+}
+
+async function copyDossierLink(url: string) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(url);
+    return;
+  }
+
+  const field = document.createElement("textarea");
+  field.value = url;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.appendChild(field);
+  field.select();
+  const copied = document.execCommand("copy");
+  field.remove();
+  if (!copied) throw new Error("A cópia do link foi recusada pelo navegador.");
+}
+
+async function shareDossier() {
+  if (shareStatus.value === "loading") return;
+  shareStatus.value = "loading";
+  if (shareResetTimer) window.clearTimeout(shareResetTimer);
+  const url = getDossierShareUrl();
+
+  try {
+    if (nativeShareAvailable.value && typeof navigator.share === "function") {
+      await navigator.share({
+        title: `${profile.value.name} — A Chama do Último Reino`,
+        text: `Abra o dossiê de ${profile.value.name} no Arquivo das Cinzas.`,
+        url,
+      });
+      shareStatus.value = "success";
+    } else {
+      await copyDossierLink(url);
+      shareStatus.value = "copied";
+    }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      shareStatus.value = "cancelled";
+    } else {
+      try {
+        await copyDossierLink(url);
+        shareStatus.value = "copied";
+      } catch (copyError) {
+        console.error("Falha ao compartilhar dossiê", error, copyError);
+        shareStatus.value = "error";
+      }
+    }
+  } finally {
+    resetShareFeedback();
+  }
+}
+
+onMounted(() => {
+  nativeShareAvailable.value = typeof navigator !== "undefined" && typeof navigator.share === "function";
+});
+
 onBeforeUnmount(() => {
   if (bondLoadingTimer) window.clearTimeout(bondLoadingTimer);
   if (exportResetTimer) window.clearTimeout(exportResetTimer);
+  if (shareResetTimer) window.clearTimeout(shareResetTimer);
 });
 
 useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }));
@@ -186,7 +257,9 @@ useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }))
       <div class="profile-export-actions" :class="{ 'is-processing': exportStatus === 'loading' }" :aria-busy="exportStatus === 'loading'">
         <button type="button" class="export-action export-action-image" :disabled="exportStatus === 'loading'" @click="exportDossier('image')"><span class="export-action-rune" aria-hidden="true">✦</span><span><small>Prancha de arquivo</small><strong>{{ exportStatus === 'loading' && exportFormat === 'image' ? 'Preparando imagem' : 'Baixar imagem' }}</strong></span><i v-if="exportStatus === 'loading' && exportFormat === 'image'" class="export-spinner" aria-hidden="true" /><b v-else>PNG</b></button>
         <button type="button" class="export-action export-action-pdf" :disabled="exportStatus === 'loading'" @click="exportDossier('pdf')"><span class="export-action-rune" aria-hidden="true">✦</span><span><small>Registro de uma página</small><strong>{{ exportStatus === 'loading' && exportFormat === 'pdf' ? 'Selando PDF' : 'Baixar em PDF' }}</strong></span><i v-if="exportStatus === 'loading' && exportFormat === 'pdf'" class="export-spinner" aria-hidden="true" /><b v-else>PDF</b></button>
+        <button type="button" class="export-action export-action-share" :class="`is-${shareStatus}`" :disabled="shareStatus === 'loading'" @click="shareDossier"><span class="export-action-rune" aria-hidden="true">↗</span><span><small>Rota de partilha</small><strong><template v-if="shareStatus === 'loading'">Abrindo partilha</template><template v-else-if="shareStatus === 'success'">Rota enviada</template><template v-else-if="shareStatus === 'copied'">Link copiado</template><template v-else-if="shareStatus === 'cancelled'">Partilha cancelada</template><template v-else-if="shareStatus === 'error'">Tentar novamente</template><template v-else>{{ nativeShareAvailable ? 'Partilhar dossiê' : 'Copiar link do dossiê' }}</template></strong></span><i v-if="shareStatus === 'loading'" class="export-spinner" aria-hidden="true" /><b v-else>{{ nativeShareAvailable ? 'NATIVO' : 'LINK' }}</b></button>
         <p class="export-feedback" :class="`is-${exportStatus}`" role="status" aria-live="polite"><template v-if="exportStatus === 'loading'">O arquivo está sendo composto no seu dispositivo.</template><template v-else-if="exportStatus === 'success'">Registro preparado. O download foi iniciado.</template><template v-else-if="exportStatus === 'error'">Não foi possível preparar o registro. Tente novamente.</template><template v-else>Imagem em PNG ou folha PDF, pronta para partilhar.</template></p>
+        <p class="share-feedback" :class="`is-${shareStatus}`" role="status" aria-live="polite"><template v-if="shareStatus === 'loading'">Preparando a rota do registro neste dispositivo.</template><template v-else-if="shareStatus === 'success'">O seletor nativo recebeu o link do dossiê.</template><template v-else-if="shareStatus === 'copied'">O link do dossiê foi copiado para a área de transferência.</template><template v-else-if="shareStatus === 'cancelled'">A partilha foi fechada sem enviar o registro.</template><template v-else-if="shareStatus === 'error'">Não foi possível abrir a partilha nem copiar o link.</template><template v-else>Em dispositivos compatíveis, abre a partilha nativa; nos demais, copia a rota do arquivo.</template></p>
       </div>
     </section>
 
