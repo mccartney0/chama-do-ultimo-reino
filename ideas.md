@@ -92,3 +92,5 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - Regiões e dossiês cruzados são dispostos como **provas manuseadas em uma mesa de arquivo**, com etiquetas, bordas de impressão, deslocamentos editoriais e marcas de procedência; jamais como uma grade uniforme de produto.
 - O **lacre de partilha** é uma estação de exportação local no dossiê: PDF e PNG devem parecer pranchas do arquivo, com feedback explícito de composição e nunca com a aparência de uma barra utilitária genérica.
 - Hover, foco e processamento devem sugerir **documentos sendo manuseados**: deslocamentos curtos, brilho Azul Vigília, selo giratório apenas durante operações e nenhuma animação não essencial para visitantes com movimento reduzido.
+- Cada dossiê preserva a mesma gramática do arquivo, mas recebe uma **marca de procedência própria** no retrato; a evidência deve indicar a vida do personagem, não apenas sua cor de acento.
+- Títulos narrativos nas fichas de papel usam **Cormorant Garamond**; Manrope permanece reservado aos controles, metadados e demais sinais operacionais.

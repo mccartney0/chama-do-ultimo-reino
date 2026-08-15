@@ -89,4 +89,9 @@
 - [x] Definir o comportamento de compartilhamento nativo e a alternativa de cópia de link.
 - [x] Implementar o botão Web Share API com estados acessíveis de sucesso, cancelamento e erro.
 - [x] Validar o compartilhamento em mobile, a cópia de link no fallback e a geração SSG.
-- [ ] Salvar e entregar a revisão de compartilhamento nativo.
+- [x] Salvar e entregar a revisão de compartilhamento nativo.
+- [x] Definir título, descrição, imagem e resumo canônicos para cada dossiê.
+- [x] Implementar metatags Open Graph e Twitter personalizadas por personagem.
+- [x] Incluir o resumo automático na Web Share API e na alternativa de cópia de link.
+- [x] Validar as tags sociais, a mensagem de compartilhamento e a geração SSG.
+- [ ] Salvar e entregar a revisão das pré-visualizações sociais por personagem.

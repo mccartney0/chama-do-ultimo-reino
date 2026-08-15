@@ -18,7 +18,7 @@ const art = {
 
 const profiles = [
   {
-    slug: "kael", number: "01", name: "Kael Auren", role: "O ferreiro da chama azul", mark: "KA · 19", tone: "blue", image: art.kael, archive: "FERROSUL · TESTEMUNHA DA MEMÓRIA", sigil: "Chama da Memória", instrument: "Grimório vivo · fogo azul", affiliation: "Oficina Auren · Vigília", quote: "A memória não voltou para obedecer. Voltou para ser testemunhada.",
+    slug: "kael", number: "01", name: "Kael Auren", role: "O ferreiro da chama azul", mark: "KA · 19", tone: "blue", image: art.kael, archive: "FERROSUL · TESTEMUNHA DA MEMÓRIA", sigil: "Chama da Memória", instrument: "Grimório vivo · fogo azul", affiliation: "Oficina Auren · Vigília", quote: "A memória não voltou para obedecer. Voltou para ser testemunhada.", summary: "Kael Auren, ferreiro de Ferrosul, carrega uma chama azul que devolve nomes que o mundo tentou enterrar.", evidence: "FORJA AUREN · PEÇA 19",
     bio: ["Kael cresceu entre o calor controlado das forjas de Ferrosul, sob a orientação silenciosa de Darion Auren. Para ele, o ferro era uma promessa simples: toda matéria cede quando se conhece o tempo e a temperatura certos.", "A chama azul desfez essa certeza. Ela não aquece como o fogo comum, responde como uma lembrança e traz vozes que Kael não pediu para ouvir. Com o grimório vivo em mãos, o jovem ferreiro passa a carregar rastros de Maelis e de uma história que a Coroa preferiria chamar de lenda.", "O que começa como fuga torna-se escolha. Ao atravessar Nareth e encarar Asterion, Kael aprende que herança não é sentença: é a matéria de que se faz o próximo gesto."],
     regions: [
       { slug: "ferrosul", name: "Ferrosul", label: "Origem", image: art.ferrosul, text: "A oficina, o pai e a primeira faísca impossível." },
@@ -34,7 +34,7 @@ const profiles = [
     ],
   },
   {
-    slug: "dharen", number: "02", name: "Dharen Varenn", role: "O Caminhante de Prata", mark: "DV · 39", tone: "gold", image: art.dharen, archive: "ESTRADAS DE ASTERION · ARQUIVO VARENN", sigil: "Lâmina do Caminho", instrument: "Espada rúnica · energia mística", affiliation: "Caminhante de Prata · Vigília", quote: "A vontade não comanda o homem. Comanda o caminho que ele escolhe.",
+    slug: "dharen", number: "02", name: "Dharen Varenn", role: "O Caminhante de Prata", mark: "DV · 39", tone: "gold", image: art.dharen, archive: "ESTRADAS DE ASTERION · ARQUIVO VARENN", sigil: "Lâmina do Caminho", instrument: "Espada rúnica · energia mística", affiliation: "Caminhante de Prata · Vigília", quote: "A vontade não comanda o homem. Comanda o caminho que ele escolhe.", summary: "Dharen Varenn, Caminhante de Prata, atravessa Asterion com uma espada rúnica e um laço que o impede de carregar o peso sozinho.", evidence: "PRATA VARENN · ROTA 39",
     bio: ["Dharen Varenn aprendeu a sobreviver entre contratos, estradas e promessas que raramente chegam inteiras ao destino. Antes de se tornar o Caminhante de Prata, ele já conhecia o preço de atravessar uma sala sem revelar tudo o que sabia.", "A energia mística e a espada rúnica o tornam perigoso, mas não explicam por que ele escolhe ficar quando seria mais simples partir. Seu passado toca a Coroa e o nome Varenn guarda ausências que ele trata com ironia, como se humor fosse uma lâmina capaz de afastar qualquer culpa.", "O Laço Astral com Kael desloca sua rota. Dharen não recebe a força do ferreiro; recebe a impossibilidade de fingir que o peso do outro não existe. É essa mudança que transforma proteção em testemunho."],
     regions: [
       { slug: "nareth", name: "Nareth", label: "Vigília", image: art.nareth, text: "Nas ruínas, Dharen aprende que cautela não substitui testemunho." },
@@ -50,7 +50,7 @@ const profiles = [
     ],
   },
   {
-    slug: "lyra", number: "03", name: "Lyra", role: "A arqueira que reconstrói", mark: "LY · CCB", tone: "moss", image: art.lyra, archive: "CERVO BRANCO · ROTA DE RECONSTRUÇÃO", sigil: "Arco do Norte", instrument: "Arco longo · leitura de trilhas", affiliation: "Companhia do Cervo Branco", quote: "Reconstruir não é esquecer a ruína. É recusar que ela decida tudo.",
+    slug: "lyra", number: "03", name: "Lyra", role: "A arqueira que reconstrói", mark: "LY · CCB", tone: "moss", image: art.lyra, archive: "CERVO BRANCO · ROTA DE RECONSTRUÇÃO", sigil: "Arco do Norte", instrument: "Arco longo · leitura de trilhas", affiliation: "Companhia do Cervo Branco", quote: "Reconstruir não é esquecer a ruína. É recusar que ela decida tudo.", summary: "Lyra, arqueira do Cervo Branco, lê cada ruína como aviso e escolhe reconstruir rotas para quem ainda precisa de companhia.", evidence: "CERVO BRANCO · NORTE",
     bio: ["Lyra foi moldada pela Companhia do Cervo Branco, onde um rastro na lama, um galho deslocado ou um silêncio inesperado valiam mais que qualquer proclamação. Seu arco é precisão, mas também disciplina: nada em sua mira é gasto por acaso.", "A queda da companhia não a transformou em alguém que procura glória. Transformou-a em alguém que mede o perigo antes de permitir que ele engula o grupo. Ela percebe o que Dharen esconde atrás da ironia e o que Kael tenta resolver sozinho antes de pedir ajuda.", "Depois da travessia, Lyra escolhe reconstruir o Cervo Branco. É uma escolha voltada para o norte, mas começa no presente: criar rotas seguras, preservar nomes e não abandonar quem ainda precisa de uma companhia."],
     regions: [
       { slug: "ferrosul", name: "Ferrosul", label: "Chamado", image: art.ferrosul, text: "A vila mostra que até uma origem quieta pode pedir defesa." },
@@ -66,7 +66,7 @@ const profiles = [
     ],
   },
   {
-    slug: "mira", number: "04", name: "Mira", role: "A chave sem dentes", mark: "MI · GC", tone: "ember", image: art.mira, archive: "GUILDA DOS CAMINHOS · ACESSO NÃO AUTORIZADO", sigil: "Chave sem Dentes", instrument: "Gazua · infiltração", affiliation: "Guilda dos Caminhos", quote: "Se uma porta não quer abrir, ela provavelmente está escondendo um bom registro.",
+    slug: "mira", number: "04", name: "Mira", role: "A chave sem dentes", mark: "MI · GC", tone: "ember", image: art.mira, archive: "GUILDA DOS CAMINHOS · ACESSO NÃO AUTORIZADO", sigil: "Chave sem Dentes", instrument: "Gazua · infiltração", affiliation: "Guilda dos Caminhos", quote: "Se uma porta não quer abrir, ela provavelmente está escondendo um bom registro.", summary: "Mira, uma chave sem dentes da Guilda dos Caminhos, transforma suspeita em método para abrir os registros que a Coroa esconde.", evidence: "GUILDA · SEM SELO",
     bio: ["Mira aprendeu nas margens da Guilda dos Caminhos que fechaduras têm caráter. Algumas pedem paciência; outras pedem que alguém pare de tratá-las como autoridade. Sua Chave sem Dentes não é apenas ferramenta: é uma recusa a aceitar que todo acesso precisa ser concedido.", "Rápida, sarcástica e seletivamente honesta, Mira lê uma sala com a mesma facilidade com que encontra um compartimento falso. Ela não confia em instituições que escondem registros — talvez porque saiba quanto custa ficar do lado de fora de uma porta trancada.", "A companhia encontra nela alguém que transforma suspeita em método. Ao seguir os fios da Guilda, Mira ajuda a provar que os caminhos também podem ser usados para esconder uma Coroa."],
     regions: [
       { slug: "nareth", name: "Nareth", label: "Arquivo", image: art.nareth, text: "Ruínas e bibliotecas são fechaduras em escala de reino." },
@@ -84,6 +84,12 @@ const profiles = [
 ] as const;
 
 const profile = computed(() => profiles.find((item) => item.slug === String(route.params.personagem)) ?? profiles[0]);
+const runtimeConfig = useRuntimeConfig();
+const siteUrl = String(runtimeConfig.public.siteUrl || "https://chama-do-ultimo-reino.manus.space").replace(/\/$/, "");
+const canonicalUrl = computed(() => `${siteUrl}/personagens/${profile.value.slug}`);
+const profileSocialImage = computed(() => new URL(profile.value.image, siteUrl).toString());
+const profileSocialTitle = computed(() => `${profile.value.name} — A Chama do Último Reino`);
+const shareSummary = computed(() => `${profile.value.summary} Abra o dossiê no Arquivo das Cinzas.`);
 const companionProfiles = computed(() => profile.value.companions.map((slug) => profiles.find((item) => item.slug === slug)).filter((item): item is (typeof profiles)[number] => Boolean(item)));
 const activeBond = ref(0);
 const selectedBond = computed(() => profile.value.bonds[activeBond.value] ?? profile.value.bonds[0]);
@@ -168,7 +174,7 @@ async function exportDossier(format: ExportFormat) {
 }
 
 function getDossierShareUrl() {
-  return new URL(`/personagens/${profile.value.slug}`, window.location.origin).toString();
+  return canonicalUrl.value;
 }
 
 function resetShareFeedback() {
@@ -177,13 +183,14 @@ function resetShareFeedback() {
 }
 
 async function copyDossierLink(url: string) {
+  const shareText = `${shareSummary.value}\n\n${url}`;
   if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(shareText);
     return;
   }
 
   const field = document.createElement("textarea");
-  field.value = url;
+  field.value = shareText;
   field.setAttribute("readonly", "");
   field.style.position = "fixed";
   field.style.opacity = "0";
@@ -203,8 +210,8 @@ async function shareDossier() {
   try {
     if (nativeShareAvailable.value && typeof navigator.share === "function") {
       await navigator.share({
-        title: `${profile.value.name} — A Chama do Último Reino`,
-        text: `Abra o dossiê de ${profile.value.name} no Arquivo das Cinzas.`,
+        title: profileSocialTitle.value,
+        text: shareSummary.value,
         url,
       });
       shareStatus.value = "success";
@@ -239,7 +246,24 @@ onBeforeUnmount(() => {
   if (shareResetTimer) window.clearTimeout(shareResetTimer);
 });
 
-useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }));
+useHead(() => ({
+  title: profileSocialTitle.value,
+  meta: [
+    { key: "description", name: "description", content: profile.value.summary },
+    { key: "og:type", property: "og:type", content: "profile" },
+    { key: "og:title", property: "og:title", content: profileSocialTitle.value },
+    { key: "og:description", property: "og:description", content: profile.value.summary },
+    { key: "og:url", property: "og:url", content: canonicalUrl.value },
+    { key: "og:image", property: "og:image", content: profileSocialImage.value },
+    { key: "og:image:alt", property: "og:image:alt", content: `Retrato de ${profile.value.name}, ${profile.value.role}` },
+    { key: "twitter:card", name: "twitter:card", content: "summary_large_image" },
+    { key: "twitter:title", name: "twitter:title", content: profileSocialTitle.value },
+    { key: "twitter:description", name: "twitter:description", content: profile.value.summary },
+    { key: "twitter:image", name: "twitter:image", content: profileSocialImage.value },
+    { key: "twitter:image:alt", name: "twitter:image:alt", content: `Retrato de ${profile.value.name}, ${profile.value.role}` },
+  ],
+  link: [{ key: "canonical", rel: "canonical", href: canonicalUrl.value }],
+}));
 </script>
 
 <template>
@@ -248,7 +272,7 @@ useHead(() => ({ title: `${profile.value.name} — A Chama do Último Reino` }))
     <div class="profile-route-thread" aria-hidden="true"><img :src="art.logo" alt="" /><i class="route-rune route-rune-one">✦</i><i class="route-rune route-rune-two">✦</i><i class="route-rune route-rune-three">✦</i><i class="route-rune route-rune-four">✦</i></div>
     <header class="profile-header"><NuxtLink class="profile-brand" to="/"><img :src="art.logo" alt="Marca-runa da Chama do Último Reino" /><span><strong>A Chama</strong><small>do Último Reino</small></span></NuxtLink><ArchiveTopNav active="personagens" /></header>
 
-    <section class="profile-hero" data-reveal><div class="profile-title-block"><p class="eyebrow"><span />Registro {{ profile.number }} · {{ profile.archive }}</p><p class="profile-mark">{{ profile.mark }} · {{ profile.sigil }}</p><h1>{{ profile.name }}</h1><p class="profile-role">{{ profile.role }}</p><blockquote>“{{ profile.quote }}”</blockquote></div><figure class="profile-portrait" tabindex="0" :aria-label="`Retrato de ${profile.name}; foco ou cursor revelam uma nota do arquivo`"><img :src="profile.image" :alt="`Retrato de ${profile.name}`" data-parallax="0.026" /><figcaption>TESTEMUNHA VIVA · {{ profile.number }}</figcaption><div class="profile-portrait-note"><small>NOTA À MARGEM · REGISTRO {{ profile.number }}</small><blockquote>{{ profile.archiveNote }}</blockquote></div></figure></section>
+    <section class="profile-hero" data-reveal><div class="profile-title-block"><p class="eyebrow"><span />Registro {{ profile.number }} · {{ profile.archive }}</p><p class="profile-mark">{{ profile.mark }} · {{ profile.sigil }}</p><h1>{{ profile.name }}</h1><p class="profile-role">{{ profile.role }}</p><blockquote>“{{ profile.quote }}”</blockquote></div><figure class="profile-portrait" tabindex="0" :aria-label="`Retrato de ${profile.name}; foco ou cursor revelam uma nota do arquivo`"><span class="profile-evidence-mark" aria-hidden="true">{{ profile.evidence }}</span><img :src="profile.image" :alt="`Retrato de ${profile.name}`" data-parallax="0.026" /><figcaption>TESTEMUNHA VIVA · {{ profile.number }}</figcaption><div class="profile-portrait-note"><small>NOTA À MARGEM · REGISTRO {{ profile.number }}</small><blockquote>{{ profile.archiveNote }}</blockquote></div></figure></section>
 
     <section class="profile-dossier" data-reveal><aside class="profile-facts"><p class="eyebrow"><span />Ficha de procedência</p><dl><div><dt>Vínculo</dt><dd>{{ profile.affiliation }}</dd></div><div><dt>Instrumento</dt><dd>{{ profile.instrument }}</dd></div><div><dt>Sigilo</dt><dd>{{ profile.sigil }}</dd></div><div><dt>Registro</dt><dd>{{ profile.archive }}</dd></div></dl></aside><article class="profile-biography"><p class="eyebrow"><span />Biografia recuperada</p><h2>Nem todo caminho<br /><em>começa como escolha.</em></h2><div class="profile-copy"><p v-for="paragraph in profile.bio" :key="paragraph">{{ paragraph }}</p></div></article></section>
 
