@@ -26,7 +26,17 @@ function updateActiveChapter() {
   });
 
   activeId.value = current;
-  progressTone.value = document.getElementById(current)?.dataset.progressTone === "light" ? "light" : "dark";
+
+  const indicatorLine = window.innerHeight * 0.5;
+  const surfaceSection = chapters
+    .map((chapter) => document.getElementById(chapter.id))
+    .find((section) => {
+      if (!section) return false;
+      const bounds = section.getBoundingClientRect();
+      return bounds.top <= indicatorLine && bounds.bottom >= indicatorLine;
+    });
+
+  progressTone.value = surfaceSection?.dataset.progressTone === "light" ? "light" : "dark";
 }
 
 function scheduleChapterUpdate() {

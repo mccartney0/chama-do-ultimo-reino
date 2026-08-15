@@ -71,3 +71,6 @@
 - [x] Mapear as seções de papel claro e carvão escuro percorridas pelo indicador lateral.
 - [x] Aplicar cor adaptativa aos títulos e marcadores do progresso narrativo.
 - [x] Validar contraste em desktop, mobile e na versão estática.
+- [x] Reinspecionar o indicador lateral sobre as seções de papel claro.
+- [x] Ajustar o contraste dos títulos se ainda houver baixa legibilidade.
+- [x] Validar a correção em tela ampla e salvar a revisão.
