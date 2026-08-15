@@ -44,3 +44,7 @@
 - [x] Criar as quatro páginas individuais com biografias detalhadas e registros de personagem.
 - [x] Conectar cada dossiê às regiões relevantes de Asterion e às outras páginas de personagem.
 - [x] Validar as rotas individuais, responsividade e a geração estática.
+- [x] Definir a curadoria, ordem de leitura e linguagem editorial da página de personagens.
+- [x] Criar a rota de personagens com acessos aos quatro dossiês individuais.
+- [x] Atualizar o menu principal para apontar para a nova página de personagens.
+- [x] Validar a rota, a responsividade e a geração SSG.

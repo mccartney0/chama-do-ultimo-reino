@@ -255,14 +255,14 @@ onBeforeUnmount(() => {
       </a>
 
       <nav class="desktop-nav" aria-label="Navegação principal">
-        <button v-for="([label, id]) in navigation" :key="id" type="button" @click="chooseNavigation(id)">{{ label }}</button>
+        <template v-for="([label, id]) in navigation" :key="id"><NuxtLink v-if="id === 'personagens'" to="/personagens">{{ label }}</NuxtLink><button v-else type="button" @click="chooseNavigation(id)">{{ label }}</button></template>
       </nav>
 
       <button class="nav-cta" type="button" @click="showChapterModal = true">Ler o primeiro capítulo <span>↗</span></button>
       <button class="menu-trigger" type="button" :aria-label="isMenuOpen ? 'Fechar menu' : 'Abrir menu'" :aria-expanded="isMenuOpen" @click="isMenuOpen = !isMenuOpen">{{ isMenuOpen ? '×' : '☰' }}</button>
 
       <div v-if="isMenuOpen" class="mobile-menu">
-        <button v-for="([label, id], index) in navigation" :key="id" type="button" @click="chooseNavigation(id)"><span>0{{ index + 1 }}</span>{{ label }}<b>→</b></button>
+        <template v-for="([label, id], index) in navigation" :key="id"><NuxtLink v-if="id === 'personagens'" to="/personagens" @click="isMenuOpen = false"><span>0{{ index + 1 }}</span>{{ label }}<b>→</b></NuxtLink><button v-else type="button" @click="chooseNavigation(id)"><span>0{{ index + 1 }}</span>{{ label }}<b>→</b></button></template>
         <button type="button" class="mobile-read" @click="showChapterModal = true; isMenuOpen = false">Ler o primeiro capítulo</button>
       </div>
     </header>
