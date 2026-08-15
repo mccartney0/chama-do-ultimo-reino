@@ -34,7 +34,7 @@ const navigation = [
 
 const characters = [
   {
-    name: "Kael Auren", role: "O ferreiro da chama azul", mark: "KA · 19", tone: "blue",
+    slug: "kael", name: "Kael Auren", role: "O ferreiro da chama azul", mark: "KA · 19", tone: "blue",
     image: art.kaelPortrait,
     sigil: "kael",
     sigilName: "Chama da Memória",
@@ -44,7 +44,7 @@ const characters = [
     archive: "Ferrosul · testemunha da Memória",
   },
   {
-    name: "Dharen Varenn", role: "O Caminhante de Prata", mark: "DV · 39", tone: "gold",
+    slug: "dharen", name: "Dharen Varenn", role: "O Caminhante de Prata", mark: "DV · 39", tone: "gold",
     image: art.dharenPortrait,
     sigil: "dharen",
     sigilName: "Lâmina do Caminho",
@@ -54,7 +54,7 @@ const characters = [
     archive: "Estradas de Asterion · arquivo Varenn",
   },
   {
-    name: "Lyra", role: "A arqueira que reconstrói", mark: "LY · CCB", tone: "moss",
+    slug: "lyra", name: "Lyra", role: "A arqueira que reconstrói", mark: "LY · CCB", tone: "moss",
     image: art.lyraPortrait,
     sigil: "lyra",
     sigilName: "Arco do Norte",
@@ -64,7 +64,7 @@ const characters = [
     archive: "Cervo Branco · rota de reconstrução",
   },
   {
-    name: "Mira", role: "A chave sem dentes", mark: "MI · GC", tone: "ember",
+    slug: "mira", name: "Mira", role: "A chave sem dentes", mark: "MI · GC", tone: "ember",
     image: art.miraPortrait,
     sigil: "mira",
     sigilName: "Chave sem Dentes",
@@ -329,7 +329,7 @@ onBeforeUnmount(() => {
       <div class="characters-heading"><div><p class="eyebrow dark"><span />Personagens</p><h2>Quatro caminhos.<br /><em>Nenhum passa sozinho.</em></h2></div><p>Quando o passado insiste em voltar, a companhia não nasce da profecia — mas da decisão de seguir junto.</p></div>
       <div class="character-display">
         <div class="character-tabs" role="tablist" aria-label="Personagens principais"><button v-for="(character, index) in characters" :key="character.name" type="button" :class="{ selected: activeCharacter === index }" role="tab" :aria-selected="activeCharacter === index" @click="activeCharacter = index"><span class="char-number">0{{ index + 1 }}</span><span><span class="character-name-line"><i class="character-sigil" :class="`sigil-${character.sigil}`" aria-hidden="true"><b /><b /><b /></i><strong>{{ character.name }}</strong></span><small>{{ character.role }}</small></span><b>›</b></button></div>
-        <article class="character-detail" :class="`tone-${selectedCharacter.tone}`" aria-live="polite"><div class="character-detail-top"><span>{{ selectedCharacter.mark }}</span><span class="detail-sigil"><i class="character-sigil detail-sigil-art" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i></span></div><p class="detail-role">{{ selectedCharacter.role }}</p><h3>{{ selectedCharacter.name }}</h3><p class="detail-description">{{ selectedCharacter.description }}</p><p class="sigil-caption">{{ selectedCharacter.sigilName }}</p><div class="detail-meta">⌖ {{ selectedCharacter.detail }}</div><div class="character-pip-row" aria-hidden="true"><i v-for="(_, index) in characters" :key="index" :class="{ active: activeCharacter === index }" /></div></article>
+        <article class="character-detail" :class="`tone-${selectedCharacter.tone}`" aria-live="polite"><div class="character-detail-top"><span>{{ selectedCharacter.mark }}</span><span class="detail-sigil"><i class="character-sigil detail-sigil-art" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i></span></div><p class="detail-role">{{ selectedCharacter.role }}</p><h3>{{ selectedCharacter.name }}</h3><p class="detail-description">{{ selectedCharacter.description }}</p><p class="sigil-caption">{{ selectedCharacter.sigilName }}</p><div class="detail-meta">⌖ {{ selectedCharacter.detail }}</div><NuxtLink class="character-dossier-link" :to="`/personagens/${selectedCharacter.slug}`">Abrir dossiê completo <span>↗</span></NuxtLink><div class="character-pip-row" aria-hidden="true"><i v-for="(_, index) in characters" :key="index" :class="{ active: activeCharacter === index }" /></div></article>
         <button class="character-portrait" :class="`portrait-${selectedCharacter.tone}`" type="button" :aria-label="`Ler a biografia de ${selectedCharacter.name}`" @click="showBioModal = true">
           <span class="portrait-seal" aria-hidden="true">✦</span>
           <Transition name="portrait-reveal" mode="out-in">

@@ -40,3 +40,7 @@
 - [x] Criar uma página dedicada para o mapa e conectar sua navegação à página inicial.
 - [x] Implementar linhas de rota animadas e respeitar a preferência por movimento reduzido.
 - [x] Validar a nova rota e a geração SSG.
+- [x] Definir a estrutura editorial compartilhada e os vínculos regionais de Kael, Dharen, Lyra e Mira.
+- [x] Criar as quatro páginas individuais com biografias detalhadas e registros de personagem.
+- [x] Conectar cada dossiê às regiões relevantes de Asterion e às outras páginas de personagem.
+- [x] Validar as rotas individuais, responsividade e a geração estática.

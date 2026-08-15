@@ -1,6 +1,6 @@
 <!-- Arquivo das Cinzas — carta de expedição em página própria; carvão, marfim, Azul Vigília e rotas cerimoniais. -->
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 useHead({ title: "Mapa de Asterion — A Chama do Último Reino" });
 
@@ -13,15 +13,20 @@ const art = {
   casaDosEcos: "/manus-storage/casa-dos-ecos_84c5ded9.jpg",
 };
 
+const route = useRoute();
+
 const regions = [
-  { name: "Ferrosul", number: "01", note: "FORJA · ROTA DE ORIGEM", tooltip: "Onde a chama azul despertou", image: art.ferrosul, x: "22%", y: "31%", tone: "ember", description: "Uma pequena vila de forjas, rio estreito e fumaça de carvão. Foi ali que Kael descobriu que a chama azul não deveria existir — e que nenhuma origem permanece simples quando o passado desperta." },
-  { name: "Nareth", number: "02", note: "RUÍNAS · REGISTRO 612", tooltip: "Sinos enterrados sob as raízes", image: art.nareth, x: "76%", y: "25%", tone: "blue", description: "No vale circular, torres e pontes quebradas desaparecem entre raízes. Nareth guarda bibliotecas, templos e sinos enterrados que respondem a quem se aproxima com a pergunta errada." },
-  { name: "Asterion", number: "03", note: "CIDADE · APÓS A QUEDA", tooltip: "O coração rachado do reino", image: art.asterion, x: "58%", y: "69%", tone: "gold", description: "O coração rachado do reino ainda sustenta arcos, canais e caminhos cerimoniais. Entre cinzas e pedra molhada, a cidade resiste à tentativa de ser reduzida a um único nome ou rei." },
-  { name: "Casa dos Ecos", number: "04", note: "SANTUÁRIO · SELO FINAL", tooltip: "Toda resposta cobra uma memória", image: art.casaDosEcos, x: "26%", y: "73%", tone: "ivory", description: "Um santuário de círculos de pedra, poeira e memória acumulada. A Casa dos Ecos não oferece respostas prontas: exige que cada visitante reconheça a escolha escondida em seu próprio registro." },
+  { slug: "ferrosul", name: "Ferrosul", number: "01", note: "FORJA · ROTA DE ORIGEM", tooltip: "Onde a chama azul despertou", image: art.ferrosul, x: "22%", y: "31%", tone: "ember", description: "Uma pequena vila de forjas, rio estreito e fumaça de carvão. Foi ali que Kael descobriu que a chama azul não deveria existir — e que nenhuma origem permanece simples quando o passado desperta." },
+  { slug: "nareth", name: "Nareth", number: "02", note: "RUÍNAS · REGISTRO 612", tooltip: "Sinos enterrados sob as raízes", image: art.nareth, x: "76%", y: "25%", tone: "blue", description: "No vale circular, torres e pontes quebradas desaparecem entre raízes. Nareth guarda bibliotecas, templos e sinos enterrados que respondem a quem se aproxima com a pergunta errada." },
+  { slug: "asterion", name: "Asterion", number: "03", note: "CIDADE · APÓS A QUEDA", tooltip: "O coração rachado do reino", image: art.asterion, x: "58%", y: "69%", tone: "gold", description: "O coração rachado do reino ainda sustenta arcos, canais e caminhos cerimoniais. Entre cinzas e pedra molhada, a cidade resiste à tentativa de ser reduzida a um único nome ou rei." },
+  { slug: "casa-dos-ecos", name: "Casa dos Ecos", number: "04", note: "SANTUÁRIO · SELO FINAL", tooltip: "Toda resposta cobra uma memória", image: art.casaDosEcos, x: "26%", y: "73%", tone: "ivory", description: "Um santuário de círculos de pedra, poeira e memória acumulada. A Casa dos Ecos não oferece respostas prontas: exige que cada visitante reconheça a escolha escondida em seu próprio registro." },
 ] as const;
 
-const activeRegion = ref(0);
+const findRegionIndex = (slug: unknown) => Math.max(0, regions.findIndex((region) => region.slug === String(slug)));
+const activeRegion = ref(findRegionIndex(route.query.regiao));
 const selectedRegion = computed(() => regions[activeRegion.value]);
+
+watch(() => route.query.regiao, (slug) => { activeRegion.value = findRegionIndex(slug); });
 </script>
 
 <template>

@@ -83,3 +83,6 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - Os cenários e as criaturas de Asterion aparecem como **registros de campo**, com classificação, proveniência, moldura cerimonial e descrição de arquivo — nunca como cartões genéricos.
 - Na carta de expedição, **Cormorant Garamond** domina títulos e nomes de lugares; **Manrope** fica reservado a rótulos, controles e metadados funcionais.
 - Superfícies de seleção são **fichas catalogadas**, com numeração, procedência, carimbo e marcas materiais; nunca assumem a aparência de uma grade genérica de produto.
+- Nos dossiês, **nomes de personagem e títulos de registro** empregam Cormorant Garamond como voz cerimonial; Manrope permanece funcional e discreta.
+- Retratos são sempre **provas recuperadas**, tratados com placa envelhecida, registro de procedência, grão, bordas rituais e sombra de arquivo — nunca como recorte de estúdio.
+- A rota dourada deve **atravessar os dossiês** e vincular retrato, biografia, regiões e demais registros como uma única travessia documental.

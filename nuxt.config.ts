@@ -9,7 +9,7 @@ const socialDescription =
  */
 export default defineNuxtConfig({
   ssr: false,
-  css: ["~/assets/css/main.css", "~/assets/css/refinements.css", "~/assets/css/newsletter-feedback.css", "~/assets/css/character-gallery.css", "~/assets/css/character-archive.css", "~/assets/css/archive-route-refinement.css", "~/assets/css/asterion-records.css", "~/assets/css/asterion-archive-refinement.css", "~/assets/css/asterion-map.css", "~/assets/css/asterion-atlas-page.css", "~/assets/css/asterion-atlas-refinement.css"],
+  css: ["~/assets/css/main.css", "~/assets/css/refinements.css", "~/assets/css/newsletter-feedback.css", "~/assets/css/character-gallery.css", "~/assets/css/character-archive.css", "~/assets/css/archive-route-refinement.css", "~/assets/css/asterion-records.css", "~/assets/css/asterion-archive-refinement.css", "~/assets/css/asterion-map.css", "~/assets/css/asterion-atlas-page.css", "~/assets/css/asterion-atlas-refinement.css", "~/assets/css/character-dossier-page.css", "~/assets/css/character-dossier-refinement.css"],
   app: {
     head: {
       htmlAttrs: { lang: "pt-BR" },
@@ -49,6 +49,9 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "static",
+    prerender: {
+      routes: ["/personagens/kael", "/personagens/dharen", "/personagens/lyra", "/personagens/mira"],
+    },
     publicAssets: [
       {
         baseURL: "/manus-storage",
