@@ -79,7 +79,7 @@ const activeRelation = ref(0);
 const copied = ref(false);
 const showChapterModal = ref(false);
 const newsletterEmail = ref("");
-const newsletterState = ref<"idle" | "invalid" | "ready">("idle");
+const newsletterState = ref<"idle" | "invalid" | "submitting" | "success">("idle");
 
 const selectedCharacter = computed(() => characters[activeCharacter.value]);
 const selectedChapter = computed(() => chapters[activeChapter.value]);
@@ -115,10 +115,18 @@ function onKeydown(event: KeyboardEvent) {
   if (event.key === "Escape") showChapterModal.value = false;
 }
 
-function submitNewsletter() {
+async function submitNewsletter() {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletterEmail.value.trim());
-  newsletterState.value = isValidEmail ? "ready" : "invalid";
-  if (isValidEmail) newsletterEmail.value = "";
+  if (!isValidEmail) {
+    newsletterState.value = "invalid";
+    return;
+  }
+
+  newsletterState.value = "submitting";
+  await new Promise((resolve) => window.setTimeout(resolve, 850));
+  window.localStorage.setItem("chama-ultimo-reino-newsletter", "interest-recorded");
+  newsletterEmail.value = "";
+  newsletterState.value = "success";
 }
 
 onMounted(() => {
@@ -253,9 +261,10 @@ onBeforeUnmount(() => {
       <div class="newsletter-copy"><p class="eyebrow dark"><span />Correspondência da Vigília</p><h2>Quando a estrada<br />seguir, <em>saiba primeiro.</em></h2><p>Receba notícias do Livro I, novos trechos e os próximos registros recuperados de Asterion.</p></div>
       <form class="newsletter-form" novalidate @submit.prevent="submitNewsletter">
         <label for="newsletter-email">Seu endereço de e-mail</label>
-        <div class="newsletter-field"><input id="newsletter-email" v-model="newsletterEmail" type="email" name="email" autocomplete="email" placeholder="seu@email.com" :aria-invalid="newsletterState === 'invalid'" required /><button type="submit">Entrar na Vigília <span>↗</span></button></div>
+        <div class="newsletter-field"><input id="newsletter-email" v-model="newsletterEmail" type="email" name="email" autocomplete="email" placeholder="seu@email.com" :aria-invalid="newsletterState === 'invalid'" :disabled="newsletterState === 'submitting' || newsletterState === 'success'" required /><button type="submit" :disabled="newsletterState === 'submitting' || newsletterState === 'success'"><span v-if="newsletterState === 'submitting'" class="newsletter-spinner" aria-hidden="true" />{{ newsletterState === 'submitting' ? 'Registrando...' : newsletterState === 'success' ? 'Registro marcado' : 'Entrar na Vigília' }}<span v-if="newsletterState !== 'submitting'">{{ newsletterState === 'success' ? '✓' : '↗' }}</span></button></div>
         <p v-if="newsletterState === 'invalid'" class="form-feedback is-error" aria-live="polite">Informe um endereço de e-mail válido.</p>
-        <p v-else-if="newsletterState === 'ready'" class="form-feedback is-success" aria-live="polite">Interesse registrado nesta prévia. Conecte um serviço de e-mail para receber novas inscrições.</p>
+        <p v-else-if="newsletterState === 'submitting'" class="form-feedback is-loading" aria-live="polite">Selando seu registro no arquivo…</p>
+        <p v-else-if="newsletterState === 'success'" class="form-feedback is-success" aria-live="polite">✓ Seu interesse foi registrado. Quando o provedor de newsletter for conectado, esta é a rota que receberá as próximas inscrições.</p>
         <p v-else class="form-note">Formulário estático. Nenhuma mensagem é enviada sem sua confirmação.</p>
       </form>
     </section>

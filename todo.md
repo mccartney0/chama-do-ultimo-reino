@@ -10,3 +10,6 @@
 - [x] Definir título, descrição e imagem de pré-visualização para compartilhamento.
 - [x] Adicionar metatags Open Graph e Twitter Cards ao Nuxt.
 - [x] Criar e validar o formulário estático de newsletter.
+- [x] Definir os estados de envio e confirmação da newsletter.
+- [x] Adicionar animação de carregamento e mensagem de sucesso ao formulário.
+- [x] Configurar NUXT_PUBLIC_SITE_URL para a geração estática das metatags.
