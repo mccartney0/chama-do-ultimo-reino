@@ -29,3 +29,7 @@
 - [x] Preparar ilustrações e descrições curtas para a nova seção.
 - [x] Implementar a galeria explorável de cenários e criaturas.
 - [x] Validar a nova seção na versão estática.
+- [x] Definir as regiões clicáveis, seus registros e a intensidade dos sons de abertura: Ferrosul, Nareth, Asterion e Casa dos Ecos; notas sonoras breves, discretas e acionadas apenas por interação do visitante.
+- [x] Preparar o mapa ilustrado e os efeitos sonoros para os modais.
+- [x] Implementar os hotspots do mapa e o áudio discreto na galeria Nuxt.
+- [ ] Validar a navegação, os modais e o áudio na versão estática.

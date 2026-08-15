@@ -20,6 +20,9 @@ const art = {
   asterion: "/manus-storage/asterion-cidade-quebrada_99e3ed07.jpg",
   ferasCorrompidas: "/manus-storage/asterion-corrompido_a6840b8f.jpg",
   sentinela: "/manus-storage/asterion-sentinela-sombra_c0f8c591.jpg",
+  map: "/manus-storage/mapa-asterion-expedicao_984d2fe0.jpg",
+  ferrosul: "/manus-storage/ferrosul-forjas_1dd3ffc2.jpg",
+  casaDosEcos: "/manus-storage/casa-dos-ecos_84c5ded9.jpg",
 };
 
 const navigation = [
@@ -87,6 +90,13 @@ const asterionRecords = [
   { title: "Sentinela de sombra", category: "Criatura", note: "BEST. S-03", image: art.sentinela, tone: "sentinel", description: "Estudo conceitual de uma presença vista nas rotas seladas: pedra, fumaça e vigília antiga reunidas sob os arcos desabados. Onde ela permanece, a passagem exige cautela." },
 ] as const;
 
+const mapRegions = [
+  { name: "Ferrosul", note: "FORJA · ROTA DE ORIGEM", image: art.ferrosul, x: "22%", y: "31%", tone: "ember", sound: 196, description: "Uma pequena vila de forjas, rio estreito e fumaça de carvão. Foi ali que Kael descobriu que a chama azul não deveria existir — e que nenhuma origem permanece simples quando o passado desperta." },
+  { name: "Nareth", note: "RUÍNAS · REGISTRO 612", image: art.nareth, x: "76%", y: "25%", tone: "blue", sound: 264, description: "No vale circular, torres e pontes quebradas desaparecem entre raízes. Nareth guarda bibliotecas, templos e sinos enterrados que respondem a quem se aproxima com a pergunta errada." },
+  { name: "Asterion", note: "CIDADE · APÓS A QUEDA", image: art.asterion, x: "58%", y: "69%", tone: "gold", sound: 220, description: "O coração rachado do reino ainda sustenta arcos, canais e caminhos cerimoniais. Entre cinzas e pedra molhada, a cidade resiste à tentativa de ser reduzida a um único nome ou rei." },
+  { name: "Casa dos Ecos", note: "SANTUÁRIO · SELO FINAL", image: art.casaDosEcos, x: "26%", y: "73%", tone: "ivory", sound: 308, description: "Um santuário de círculos de pedra, poeira e memória acumulada. A Casa dos Ecos não oferece respostas prontas: exige que cada visitante reconheça a escolha escondida em seu próprio registro." },
+] as const;
+
 const allArtwork = [...conceptArt, ...asterionRecords] as const;
 
 const chapters = [
@@ -127,12 +137,17 @@ const newsletterEmail = ref("");
 const newsletterState = ref<"idle" | "invalid" | "submitting" | "success">("idle");
 const showBioModal = ref(false);
 const activeArtwork = ref<number | null>(null);
+const activeMapRegion = ref(0);
+const showMapModal = ref(false);
+const soundEnabled = ref(true);
+let archiveAudioContext: AudioContext | null = null;
 
 const selectedCharacter = computed(() => characters[activeCharacter.value]);
 const selectedChapter = computed(() => chapters[activeChapter.value]);
 const selectedRelation = computed(() => relations[activeRelation.value]);
 const chapterProgress = computed(() => ((activeChapter.value + 1) / chapters.length) * 100);
 const selectedArtwork = computed(() => activeArtwork.value === null ? null : allArtwork[activeArtwork.value]);
+const selectedMapRegion = computed(() => mapRegions[activeMapRegion.value]);
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -164,7 +179,42 @@ function onKeydown(event: KeyboardEvent) {
     showChapterModal.value = false;
     showBioModal.value = false;
     activeArtwork.value = null;
+    showMapModal.value = false;
   }
+}
+
+function playArchiveTone(frequency = 220) {
+  if (!soundEnabled.value || typeof window === "undefined" || !window.AudioContext) return;
+  archiveAudioContext ??= new window.AudioContext();
+  const now = archiveAudioContext.currentTime;
+  const gain = archiveAudioContext.createGain();
+  const bell = archiveAudioContext.createOscillator();
+  const echo = archiveAudioContext.createOscillator();
+  bell.type = "sine";
+  echo.type = "triangle";
+  bell.frequency.setValueAtTime(frequency, now);
+  bell.frequency.exponentialRampToValueAtTime(frequency * 1.48, now + 0.34);
+  echo.frequency.setValueAtTime(frequency / 2, now);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.026, now + 0.035);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.72);
+  bell.connect(gain); echo.connect(gain); gain.connect(archiveAudioContext.destination);
+  bell.start(now); echo.start(now + 0.05); bell.stop(now + 0.74); echo.stop(now + 0.64);
+}
+
+function openArtwork(index: number) {
+  activeArtwork.value = index;
+  playArchiveTone(246 + index * 13);
+}
+
+function selectMapRegion(index: number) {
+  activeMapRegion.value = index;
+  playArchiveTone(mapRegions[index].sound);
+}
+
+function openMapModal() {
+  showMapModal.value = true;
+  playArchiveTone(selectedMapRegion.value.sound * 1.12);
 }
 
 async function submitNewsletter() {
@@ -293,17 +343,26 @@ onBeforeUnmount(() => {
     <section id="galeria" class="concept-gallery section-pad">
       <div class="section-rail section-rail-light"><span>04</span><i /><small>Vestígios de companhia</small></div>
       <div class="gallery-heading"><div><p class="eyebrow"><span />Galeria de arquivo</p><h2>Retratos de uma<br /><em>travessia.</em></h2></div><p>Peças conceituais recuperadas da rota entre Ferrosul, Nareth e Asterion. Selecione um estudo para examinar a marca de cada viajante.</p></div>
-      <div class="art-grid"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="activeArtwork = index"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
+      <div class="art-grid"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="openArtwork(index)"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
     </section>
 
     <section id="asterion" class="asterion-gallery section-pad">
       <div class="section-rail"><span>05</span><i /><small>Mapas, ruínas e ameaças</small></div>
       <div class="asterion-heading"><div><p class="eyebrow dark"><span />Registros de Asterion</p><h2>O mundo que ainda<br /><em>lembra de queimar.</em></h2></div><p>Quatro peças de arquivo para atravessar as ruínas, reconhecer suas marcas e observar as presenças que a Coroa deixou escapar.</p></div>
-      <div class="asterion-records"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="activeArtwork = conceptArt.length + index"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
+      <div class="asterion-records"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="openArtwork(conceptArt.length + index)"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
+    </section>
+
+    <section id="mapa" class="asterion-map-section section-pad">
+      <div class="section-rail section-rail-light"><span>06</span><i /><small>Esquema de expedição · sem escala</small></div>
+      <div class="map-heading"><div><p class="eyebrow"><span />Mapa da Vigília</p><h2>Quatro pontos.<br /><em>Uma rota impossível.</em></h2></div><div class="map-sound-control"><span>Som de registro</span><button type="button" :class="{ active: soundEnabled }" :aria-pressed="soundEnabled" @click="soundEnabled = !soundEnabled">{{ soundEnabled ? 'Ativado' : 'Silenciado' }} <i>{{ soundEnabled ? '◖' : '○' }}</i></button></div></div>
+      <div class="map-explorer">
+        <div class="map-canvas"><img :src="art.map" alt="Mapa de expedição de Asterion com rotas entre Ferrosul, Nareth, Asterion e Casa dos Ecos" /><span class="map-caption">ARQ. VIG · percurso estimado</span><button v-for="(region, index) in mapRegions" :key="region.name" type="button" class="map-hotspot" :class="[{ active: activeMapRegion === index }, `hotspot-${region.tone}`]" :style="{ left: region.x, top: region.y }" :aria-label="`Selecionar ${region.name}`" @click="selectMapRegion(index)"><i /><span>{{ region.name }}</span></button></div>
+        <article class="map-record" :class="`map-${selectedMapRegion.tone}`" aria-live="polite"><img :src="selectedMapRegion.image" :alt="selectedMapRegion.name" /><div><p>{{ selectedMapRegion.note }}</p><h3>{{ selectedMapRegion.name }}</h3><p class="map-description">{{ selectedMapRegion.description }}</p><button type="button" @click="openMapModal">Abrir registro completo <span>↗</span></button></div></article>
+      </div>
     </section>
 
     <section id="relacoes" class="relations-section section-pad">
-      <div class="section-rail section-rail-light"><span>06</span><i /><small>Vínculos em movimento</small></div>
+      <div class="section-rail section-rail-light"><span>07</span><i /><small>Vínculos em movimento</small></div>
       <div class="relations-heading"><div><p class="eyebrow"><span />Arquivo de Dharen</p><h2>O caminho de um homem<br />é feito de <em>quem fica.</em></h2></div><p>Selecione uma marca para percorrer os vínculos que Dharen constrói na travessia.</p></div>
       <div class="relation-stage">
         <figure class="dharen-portrait" tabindex="0" aria-label="Retrato de Dharen; passe o mouse para revelar uma frase">
@@ -319,7 +378,7 @@ onBeforeUnmount(() => {
     </section>
 
     <section id="livro" class="book-section section-pad">
-      <div class="section-rail section-rail-light"><span>07</span><i /><small>Livro I · A travessia</small></div>
+      <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro I · A travessia</small></div>
       <div class="book-heading"><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
       <div class="book-layout"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
     </section>
@@ -344,6 +403,8 @@ onBeforeUnmount(() => {
     <div v-if="showBioModal" class="chapter-modal-backdrop bio-backdrop" role="presentation" @click.self="showBioModal = false"><section class="chapter-modal bio-modal" :class="`bio-${selectedCharacter.tone}`" role="dialog" aria-modal="true" :aria-labelledby="`bio-${selectedCharacter.sigil}`"><button class="modal-close" type="button" aria-label="Fechar biografia" @click="showBioModal = false">×</button><div class="bio-modal-head"><i class="character-sigil bio-sigil" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i><div><p class="eyebrow dark"><span />Registro individual</p><p class="modal-kicker">{{ selectedCharacter.archive }}</p></div></div><h2 :id="`bio-${selectedCharacter.sigil}`">{{ selectedCharacter.name }}</h2><p class="bio-role">{{ selectedCharacter.role }} · {{ selectedCharacter.sigilName }}</p><div class="bio-layout"><img :src="selectedCharacter.image" :alt="`Retrato de ${selectedCharacter.name}`" /><div class="bio-copy"><p v-for="paragraph in selectedCharacter.biography" :key="paragraph">{{ paragraph }}</p><div class="bio-fact">{{ selectedCharacter.detail }}</div></div></div><button class="modal-end" type="button" @click="showBioModal = false">Fechar registro <span>×</span></button></section></div>
 
     <div v-if="selectedArtwork" class="chapter-modal-backdrop artwork-backdrop" role="presentation" @click.self="activeArtwork = null"><figure class="artwork-modal" role="dialog" aria-modal="true" :aria-labelledby="`artwork-${activeArtwork}`"><button class="modal-close" type="button" aria-label="Fechar obra" @click="activeArtwork = null">×</button><img :src="selectedArtwork.image" :alt="selectedArtwork.title" /><figcaption><span>{{ 'category' in selectedArtwork ? `${selectedArtwork.category} · ${selectedArtwork.note}` : selectedArtwork.note }}</span><h2 :id="`artwork-${activeArtwork}`">{{ selectedArtwork.title }}</h2><p>{{ selectedArtwork.description }}</p></figcaption></figure></div>
+
+    <div v-if="showMapModal" class="chapter-modal-backdrop map-modal-backdrop" role="presentation" @click.self="showMapModal = false"><section class="map-modal" role="dialog" aria-modal="true" :aria-labelledby="`map-record-${activeMapRegion}`"><button class="modal-close" type="button" aria-label="Fechar registro" @click="showMapModal = false">×</button><img :src="selectedMapRegion.image" :alt="selectedMapRegion.name" /><div class="map-modal-copy"><p class="eyebrow"><span />Registro de expedição</p><p class="modal-kicker">{{ selectedMapRegion.note }}</p><h2 :id="`map-record-${activeMapRegion}`">{{ selectedMapRegion.name }}</h2><p>{{ selectedMapRegion.description }}</p><div class="map-modal-actions"><button type="button" @click="selectMapRegion((activeMapRegion + mapRegions.length - 1) % mapRegions.length)">← Anterior</button><button type="button" @click="selectMapRegion((activeMapRegion + 1) % mapRegions.length)">Próximo →</button></div></div></section></div>
 
     <div v-if="showChapterModal" class="chapter-modal-backdrop" role="presentation" @click.self="showChapterModal = false"><section class="chapter-modal" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title"><button class="modal-close" type="button" aria-label="Fechar leitura" @click="showChapterModal = false">×</button><p class="eyebrow dark"><span />Leitura de amostra</p><p class="modal-kicker">Capítulo I · Coisas que um Ferreiro Não Deveria Fazer</p><h2 id="chapter-modal-title">Uma bota incendiada<br />é um mau começo.</h2><div class="modal-rule"><i />Ferrosul · Registro inicial<i /></div><div class="chapter-excerpt"><p class="dropcap">Kael sabia três coisas sobre magia.</p><p>A primeira era que magos de verdade usavam cajados. A segunda era que magos de verdade passavam anos estudando em torres distantes, cercados por livros, velas e professores extremamente velhos.</p><p>E a terceira era que magos de verdade definitivamente não incendiavam as próprias botas tentando esquentar uma caneca de chá.</p><p>— Está queimando.</p><p>Kael continuou olhando para as próprias mãos.</p><p>— Eu sei.</p><p>— Sua bota.</p></div><button class="modal-end" type="button" @click="showChapterModal = false">Fechar a leitura <span>×</span></button></section></div>
   </main>
