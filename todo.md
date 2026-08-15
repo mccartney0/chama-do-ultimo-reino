@@ -94,4 +94,8 @@
 - [x] Implementar metatags Open Graph e Twitter personalizadas por personagem.
 - [x] Incluir o resumo automático na Web Share API e na alternativa de cópia de link.
 - [x] Validar as tags sociais, a mensagem de compartilhamento e a geração SSG.
-- [ ] Salvar e entregar a revisão das pré-visualizações sociais por personagem.
+- [x] Salvar e entregar a revisão das pré-visualizações sociais por personagem.
+- [x] Definir o tom, duração e comportamento acessível do toast de cópia.
+- [x] Implementar a notificação de confirmação para link e resumo copiados.
+- [x] Validar o toast em desktop, mobile, movimento reduzido e geração SSG.
+- [ ] Salvar e entregar a revisão do toast de cópia.

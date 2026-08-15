@@ -101,9 +101,12 @@ const exportStatus = ref<ExportStatus>("idle");
 const exportFormat = ref<ExportFormat | null>(null);
 const shareStatus = ref<ShareStatus>("idle");
 const nativeShareAvailable = ref(false);
+const copyToastVisible = ref(false);
+const copyToastMessage = ref("");
 let bondLoadingTimer: ReturnType<typeof setTimeout> | undefined;
 let exportResetTimer: ReturnType<typeof setTimeout> | undefined;
 let shareResetTimer: ReturnType<typeof setTimeout> | undefined;
+let copyToastTimer: ReturnType<typeof setTimeout> | undefined;
 
 function selectBond(index: number) {
   if (index === activeBond.value || isBondLoading.value) return;
@@ -182,10 +185,23 @@ function resetShareFeedback() {
   shareResetTimer = window.setTimeout(() => { shareStatus.value = "idle"; }, 4200);
 }
 
+function showCopyToast() {
+  if (copyToastTimer) window.clearTimeout(copyToastTimer);
+  copyToastMessage.value = `Resumo e rota de ${profile.value.name} foram copiados.`;
+  copyToastVisible.value = true;
+  copyToastTimer = window.setTimeout(() => { copyToastVisible.value = false; }, 4400);
+}
+
+function dismissCopyToast() {
+  if (copyToastTimer) window.clearTimeout(copyToastTimer);
+  copyToastVisible.value = false;
+}
+
 async function copyDossierLink(url: string) {
   const shareText = `${shareSummary.value}\n\n${url}`;
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(shareText);
+    showCopyToast();
     return;
   }
 
@@ -199,6 +215,7 @@ async function copyDossierLink(url: string) {
   const copied = document.execCommand("copy");
   field.remove();
   if (!copied) throw new Error("A cópia do link foi recusada pelo navegador.");
+  showCopyToast();
 }
 
 async function shareDossier() {
@@ -244,6 +261,7 @@ onBeforeUnmount(() => {
   if (bondLoadingTimer) window.clearTimeout(bondLoadingTimer);
   if (exportResetTimer) window.clearTimeout(exportResetTimer);
   if (shareResetTimer) window.clearTimeout(shareResetTimer);
+  if (copyToastTimer) window.clearTimeout(copyToastTimer);
 });
 
 useHead(() => ({
@@ -306,6 +324,14 @@ useHead(() => ({
       <div class="export-sheet-bonds"><p>VÍNCULOS DE TRAVESSIA</p><div v-for="bond in profile.bonds" :key="`sheet-${bond.slug}`"><span>{{ bond.sigil }}</span><strong>{{ bond.person }}</strong><small>{{ bond.label }} · {{ bond.type }}</small></div></div>
       <footer><span>O rei foi selado. A memória não.</span><strong>chama-do-ultimo-reino.manus.space</strong></footer>
     </section>
+
+    <Transition name="archive-toast">
+      <aside v-if="copyToastVisible" class="archive-copy-toast" role="status" aria-live="polite" aria-atomic="true">
+        <span class="archive-copy-toast-rune" aria-hidden="true">✦</span>
+        <div><small>REGISTRO GUARDADO</small><strong>{{ copyToastMessage }}</strong></div>
+        <button type="button" aria-label="Fechar confirmação de cópia" @click="dismissCopyToast">×</button>
+      </aside>
+    </Transition>
 
     <footer class="profile-footer"><NuxtLink to="/"><img :src="art.logo" alt="" />Retornar ao arquivo principal</NuxtLink><span>O mundo estava cheio de caminhos.</span></footer>
     <BackToTop />
