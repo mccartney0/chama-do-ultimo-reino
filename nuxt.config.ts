@@ -9,7 +9,7 @@ const socialDescription =
  */
 export default defineNuxtConfig({
   ssr: false,
-  css: ["~/assets/css/main.css", "~/assets/css/refinements.css", "~/assets/css/newsletter-feedback.css", "~/assets/css/character-gallery.css"],
+  css: ["~/assets/css/main.css", "~/assets/css/refinements.css", "~/assets/css/newsletter-feedback.css", "~/assets/css/character-gallery.css", "~/assets/css/character-archive.css", "~/assets/css/archive-route-refinement.css"],
   app: {
     head: {
       htmlAttrs: { lang: "pt-BR" },

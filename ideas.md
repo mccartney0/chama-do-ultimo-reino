@@ -77,3 +77,6 @@ O wordmark usa “A Chama” em serifas altas e “do Último Reino” em versal
 - O **Azul Vigília** permanece reservado à chama, às runas, ao foco e às palavras encantadas. Ações primárias usam papel, selo e ouro de brasa.
 - A **linha de percurso dourada** funciona como fio narrativo contínuo: conecta os marcos da travessia, em vez de aparecer apenas como ornamento local.
 - Cartelas alternam **personagens, documentos, objetos, sigilos e fragmentos**; grão mineral, coordenadas e selos acrescentam materialidade sem competir com a leitura.
+- A **rota dourada** é uma trilha cerimonial ininterrupta, com marcos rúnicos que cruzam as seções, os CTAs e as fichas do arquivo.
+- Toda arte de personagem é enquadrada como **evidência recuperada**: placas de dossiê, marcas de procedência, anotações e bordas de impressão desgastada substituem cartões genéricos.
+- A chama de **três traços rúnicos** é a marca primária: aparece no wordmark, em selos, nos marcadores de percurso e no encerramento da página.

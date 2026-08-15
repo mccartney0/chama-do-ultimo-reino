@@ -20,3 +20,8 @@
 - [x] Verificar as URLs efetivas dos quatro retratos no ambiente Nuxt: as quatro referências retornavam 404.
 - [x] Corrigir a origem estática dos retratos individuais.
 - [x] Testar Kael, Dharen, Lyra e Mira na galeria antes da entrega.
+- [x] Escrever as biografias expandidas de Kael, Dharen, Lyra e Mira.
+- [x] Definir e criar quatro sigilos de personagem com linguagem visual coerente.
+- [x] Preparar as obras e legendas da galeria conceitual.
+- [x] Implementar modais, sigilos e navegação da galeria no Nuxt.
+- [x] Validar os novos fluxos e a saída estática.
