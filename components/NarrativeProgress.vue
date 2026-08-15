@@ -12,6 +12,7 @@ const chapters = [
 ];
 
 const activeId = ref(chapters[0].id);
+const progressTone = ref<"light" | "dark">("dark");
 let animationFrame = 0;
 
 function updateActiveChapter() {
@@ -25,6 +26,7 @@ function updateActiveChapter() {
   });
 
   activeId.value = current;
+  progressTone.value = document.getElementById(current)?.dataset.progressTone === "light" ? "light" : "dark";
 }
 
 function scheduleChapterUpdate() {
@@ -52,7 +54,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <aside class="narrative-progress" aria-label="Progresso narrativo da página">
+  <aside class="narrative-progress" :class="{ 'on-light-surface': progressTone === 'light' }" aria-label="Progresso narrativo da página">
     <p>Leitura</p>
     <nav aria-label="Seções da história">
       <button v-for="chapter in chapters" :key="chapter.id" type="button" :class="{ active: activeId === chapter.id }" :aria-current="activeId === chapter.id ? 'step' : undefined" :title="chapter.label" @click="goToChapter(chapter.id)">

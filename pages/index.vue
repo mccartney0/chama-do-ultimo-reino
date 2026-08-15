@@ -298,7 +298,7 @@ onBeforeUnmount(() => {
       <div><strong>800</strong><span>anos de silêncio</span></div><div><strong>12</strong><span>capítulos e epílogo</span></div><div><strong>1</strong><span>rei que não morreu</span></div><div><strong>3</strong><span>fragmentos a proteger</span></div>
     </section>
 
-    <section id="historia" class="story-section section-pad">
+    <section id="historia" class="story-section section-pad" data-progress-tone="light">
       <div class="section-rail"><span>01</span><i /><small>O que foi esquecido</small></div>
       <div class="story-layout" data-reveal>
         <div class="story-lede"><p class="eyebrow dark"><span />A história</p><h2>Quando a chama escolhe<br /><em>um ferreiro.</em></h2></div>
@@ -316,7 +316,7 @@ onBeforeUnmount(() => {
       <div class="quote-tools"><span>Casa dos Ecos · Registro final</span><button type="button" @click="copyQuote">{{ copied ? '✓ Copiado' : '▣ Copiar' }}</button></div>
     </section>
 
-    <section id="vigilia" class="vigil-section section-pad">
+    <section id="vigilia" class="vigil-section section-pad" data-progress-tone="dark">
       <div class="section-rail section-rail-light"><span>02</span><i /><small>Entre a memória e o caminho</small></div>
       <div class="vigil-grid" data-reveal>
         <div class="vigil-image-wrap"><img :src="art.grimoire" alt="Grimório e fragmento do cristal de Asterion" /><div class="image-caption">✦ Fragmento de registro — Nareth</div></div>
@@ -326,7 +326,7 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section id="personagens" class="characters-section section-pad">
+    <section id="personagens" class="characters-section section-pad" data-progress-tone="light">
       <div class="section-rail"><span>03</span><i /><small>Os que seguem</small></div>
       <div class="characters-heading" data-reveal><div><p class="eyebrow dark"><span />Personagens</p><h2>Quatro caminhos.<br /><em>Nenhum passa sozinho.</em></h2></div><p>Quando o passado insiste em voltar, a companhia não nasce da profecia — mas da decisão de seguir junto.</p></div>
       <div class="character-display" data-reveal data-reveal-delay="110">
@@ -348,13 +348,13 @@ onBeforeUnmount(() => {
       <div class="art-grid" data-reveal data-reveal-delay="110"><button v-for="(piece, index) in conceptArt" :key="piece.title" type="button" class="art-tile" :class="`art-${piece.tone}`" @click="openArtwork(index)"><img :src="piece.image" :alt="piece.title" /><span class="art-scrim" /><span class="art-note">{{ piece.note }}</span><strong>{{ piece.title }}</strong><i>↗</i></button></div>
     </section>
 
-    <section id="asterion" class="asterion-gallery section-pad">
+    <section id="asterion" class="asterion-gallery section-pad" data-progress-tone="light">
       <div class="section-rail"><span>05</span><i /><small>Mapas, ruínas e ameaças</small></div>
       <div class="asterion-heading" data-reveal><div><p class="eyebrow dark"><span />Registros de Asterion</p><h2>O mundo que ainda<br /><em>lembra de queimar.</em></h2></div><p>Quatro peças de arquivo para atravessar as ruínas, reconhecer suas marcas e observar as presenças que a Coroa deixou escapar.</p></div>
       <div class="asterion-records" data-reveal data-reveal-delay="110"><button v-for="(record, index) in asterionRecords" :key="record.title" type="button" class="asterion-card" :class="`record-${record.tone}`" @click="openArtwork(conceptArt.length + index)"><img :src="record.image" :alt="record.title" /><div class="record-copy"><span>{{ record.category }} · {{ record.note }}</span><h3>{{ record.title }}</h3><p>{{ record.description }}</p><b>Examinar registro <i>↗</i></b></div></button></div>
     </section>
 
-    <section id="mapa" class="asterion-map-section section-pad">
+    <section id="mapa" class="asterion-map-section section-pad" data-progress-tone="dark">
       <div class="section-rail section-rail-light"><span>06</span><i /><small>Esquema de expedição · sem escala</small></div>
       <div class="map-heading" data-reveal><div><p class="eyebrow"><span />Mapa da Vigília</p><h2>Quatro pontos.<br /><em>Uma rota impossível.</em></h2></div><div class="map-heading-actions"><NuxtLink class="map-atlas-link" to="/mapa">Abrir carta ampliada <span>↗</span></NuxtLink><div class="map-sound-control"><span>Som de registro</span><button type="button" :class="{ active: soundEnabled }" :aria-pressed="soundEnabled" @click="soundEnabled = !soundEnabled">{{ soundEnabled ? 'Ativado' : 'Silenciado' }} <i>{{ soundEnabled ? '◖' : '○' }}</i></button></div></div></div>
       <div class="map-explorer" data-reveal data-reveal-delay="110">
@@ -379,7 +379,7 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section id="livro" class="book-section section-pad">
+    <section id="livro" class="book-section section-pad" data-progress-tone="dark">
       <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro I · A travessia</small></div>
       <div class="book-heading" data-reveal><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
       <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>

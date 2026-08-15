@@ -68,3 +68,6 @@
 - [x] Definir o traçado tracejado e sua composição com o progresso de rolagem.
 - [x] Restaurar as linhas douradas tracejadas e animadas nos mapas da home e da carta ampliada.
 - [x] Validar o contraste, o movimento reduzido e a geração SSG.
+- [x] Mapear as seções de papel claro e carvão escuro percorridas pelo indicador lateral.
+- [x] Aplicar cor adaptativa aos títulos e marcadores do progresso narrativo.
+- [x] Validar contraste em desktop, mobile e na versão estática.
