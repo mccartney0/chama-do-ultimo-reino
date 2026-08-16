@@ -1,7 +1,7 @@
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "https://chama-do-ultimo-reino.manus.space";
 const socialImage = `${siteUrl}/manus-storage/asterion-archive-banner_ccb0ec7d.jpg`;
 const socialDescription =
-  "Quatro dias depois de Asterion, Dheren desperta transformado. O Livro II — O Sangue do Guerreiro — leva a Vigília até a Casa sem Sol, onde o vermelho e o dourado aprendem a dividir o mesmo caminho.";
+  "A saga completa de A Chama do Último Reino: o Livro I leva Kael de Ferrosul ao Último Selo; o Livro II — O Sangue do Guerreiro — revela a transformação de Dharen e a jornada até a Casa sem Sol.";
 
 /**
  * Arquivo das Cinzas — configuração estática.
@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     pageTransition: { name: "archive-page", mode: "out-in" },
     head: {
       htmlAttrs: { lang: "pt-BR" },
-      title: "A Chama do Último Reino — Livro II · O Sangue do Guerreiro",
+      title: "A Chama do Último Reino — Livros I & II · Arquivo da Vigília",
       titleTemplate: "%s",
       meta: [
         { name: "viewport", content: "width=device-width, initial-scale=1" },

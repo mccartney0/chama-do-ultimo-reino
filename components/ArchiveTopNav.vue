@@ -10,6 +10,7 @@ const entries = [
   { id: "vigilia", label: "A Vigília", to: "/#vigilia" },
   { id: "personagens", label: "Personagens", to: "/personagens" },
   { id: "mapa", label: "Mapa", to: "/mapa" },
+  { id: "livro1", label: "Livro I", to: "/#livro1" },
   { id: "livro2", label: "Livro II", to: "/#livro2" },
 ] as const;
 

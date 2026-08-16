@@ -30,6 +30,8 @@ const navigation = [
   ["A história", "historia"],
   ["A Vigília", "vigilia"],
   ["Personagens", "personagens"],
+  ["Mapa", "mapa"],
+  ["Livro I", "livro1"],
   ["Livro II", "livro2"],
 ] as const;
 
@@ -101,6 +103,14 @@ const mapRegions = [
 
 const allArtwork = [...conceptArt, ...asterionRecords] as const;
 
+const chaptersBookOne = [
+  { id: "01", label: "A faísca", title: "Coisas que um Ferreiro Não Deveria Fazer", text: "Em Ferrosul, Kael aprende que magia, botas incendiadas e segredos de família raramente terminam bem. Quando a Coroa chega, fugir deixa de ser escolha." },
+  { id: "02", label: "A rota", title: "Encontre Nareth", text: "Uma mensagem impossível aponta para Nareth. Entre arquivos abandonados e estradas caçadas, o grupo descobre que algumas bibliotecas guardam testemunhas — não tesouros." },
+  { id: "03", label: "O vínculo", title: "Quatro Caminhos, Uma Vigília", text: "Kael e Dharen atravessam um ritual antigo e passam a compartilhar intenção. O Laço Astral não entrega força: torna impossível ignorar o que o outro carrega." },
+  { id: "04", label: "Os fragmentos", title: "Memória, Essência e Vontade", text: "Com Malgor se erguendo entre ruínas e a Coroa ocupando Asterion, os Fragmentos deixam de ser relíquias. Tornam-se perguntas sobre o que vale ser lembrado." },
+  { id: "05", label: "A escolha", title: "O Último Selo", text: "A Casa dos Ecos revela a verdade: o último selo não é uma prisão. É uma escolha. E nenhum caminho pertence a um rei quando alguém decide testemunhar." },
+] as const;
+
 const chapters = [
   { id: "P", label: "O som do sangue", title: "Prólogo — O Som do Sangue", text: "Dheren sempre soubera escutar o silêncio. Agora ouvia três corações: Lyra, Mira e Kael — e a fome que não desaparecia mesmo depois de comer." },
   { id: "01", label: "O despertar", title: "A Estrada Depois das Cinzas", text: "Quatro dias após Asterion, Dheren descobre que não melhora: cicatrizes que somem, feridas que fecham antes da faixa. Uma criatura na estrada testa sua nova velocidade. O vermelho aparece nas runas." },
@@ -132,11 +142,12 @@ const isMenuOpen = ref(false);
 const scrolled = ref(false);
 const progress = ref(0);
 const activeCharacter = ref(0);
+const activeChapterOne = ref(0);
 const activeChapter = ref(0);
 const activeRelation = ref(0);
 const copied = ref(false);
 const showChapterModal = ref(false);
-const selectedBook = ref<'one' | 'two'>('two');
+const selectedBook = ref<'one' | 'two'>('one');
 const newsletterEmail = ref("");
 const newsletterState = ref<"idle" | "invalid" | "submitting" | "success">("idle");
 const showBioModal = ref(false);
@@ -147,8 +158,10 @@ const soundEnabled = ref(true);
 let archiveAudioContext: AudioContext | null = null;
 
 const selectedCharacter = computed(() => characters[activeCharacter.value]);
+const selectedChapterOne = computed(() => chaptersBookOne[activeChapterOne.value]);
 const selectedChapter = computed(() => chapters[activeChapter.value]);
 const selectedRelation = computed(() => relations[activeRelation.value]);
+const chapterProgressOne = computed(() => ((activeChapterOne.value + 1) / chaptersBookOne.length) * 100);
 const chapterProgress = computed(() => ((activeChapter.value + 1) / chapters.length) * 100);
 const selectedArtwork = computed(() => activeArtwork.value === null ? null : allArtwork[activeArtwork.value]);
 const selectedMapRegion = computed(() => mapRegions[activeMapRegion.value]);
@@ -264,12 +277,12 @@ onBeforeUnmount(() => {
         <template v-for="([label, id]) in navigation" :key="id"><NuxtLink v-if="id === 'personagens'" to="/personagens">{{ label }}</NuxtLink><button v-else type="button" @click="chooseNavigation(id)">{{ label }}</button></template>
       </nav>
 
-      <button class="nav-cta" type="button" @click="showChapterModal = true">Ler o primeiro capítulo <span>↗</span></button>
+      <button class="nav-cta" type="button" @click="showChapterModal = true">Ler a amostra <span>↗</span></button>
       <button class="menu-trigger" type="button" :aria-label="isMenuOpen ? 'Fechar menu' : 'Abrir menu'" :aria-expanded="isMenuOpen" @click="isMenuOpen = !isMenuOpen">{{ isMenuOpen ? '×' : '☰' }}</button>
 
       <div v-if="isMenuOpen" class="mobile-menu">
         <template v-for="([label, id], index) in navigation" :key="id"><NuxtLink v-if="id === 'personagens'" to="/personagens" @click="isMenuOpen = false"><span>0{{ index + 1 }}</span>{{ label }}<b>→</b></NuxtLink><button v-else type="button" @click="chooseNavigation(id)"><span>0{{ index + 1 }}</span>{{ label }}<b>→</b></button></template>
-        <button type="button" class="mobile-read" @click="showChapterModal = true; isMenuOpen = false">Ler o primeiro capítulo</button>
+        <button type="button" class="mobile-read" @click="showChapterModal = true; isMenuOpen = false">Ler a amostra</button>
       </div>
     </header>
 
@@ -279,7 +292,7 @@ onBeforeUnmount(() => {
       <div class="ember-specks" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
       <div class="hero-grid">
         <div class="hero-copy" data-reveal="left">
-          <p class="eyebrow"><span />Arquivo recuperado · Livro II · Lançamento</p>
+          <p class="eyebrow"><span />Arquivo recuperado · Livros I &amp; II · Em Vigília</p>
           <h1><em>A Chama</em><br />do Último Reino</h1>
           <p class="hero-intro">O rei foi selado. A memória não. <em class="em-ruby">O sangue fala.</em></p>
           <p class="hero-summary">Quatro dias depois de Asterion, Dheren desperta transformado. O Livro II — O Sangue do Guerreiro — leva a Vigília até a Casa sem Sol, onde o vermelho e o dourado aprendem a dividir o mesmo caminho.</p>
@@ -310,7 +323,7 @@ onBeforeUnmount(() => {
           <p class="dropcap">Asterion queimou quando Malgor, o Rei das Cinzas, atravessou a morte. Cinco guerreiros o selaram usando um cristal que se partiu em três, jurando esconder os fragmentos antes que o rei pudesse retornar.</p>
           <p>Oito séculos depois, em uma vila pequena demais para guardar segredos, Kael descobre que a magia azul em suas mãos não é acidente. Ao lado de Dharen, um viajante com uma espada rúnica e memórias que não conta, ele parte por estradas onde a Coroa já procura seu nome.</p>
           <p>Entre bibliotecas esquecidas e uma cidade que se recusa a obedecer ao seu antigo trono, a travessia revela que a maior prisão pode ser a história escrita por quem tinha poder para vencê-la.</p>
-          <button class="inline-link" type="button" @click="scrollToId('livro')">Ver o percurso do Livro I <span>↓</span></button>
+          <button class="inline-link" type="button" @click="scrollToId('livro1')">Ver o percurso do Livro I <span>↓</span></button>
         </div>
       </div>
     </section>
@@ -383,10 +396,16 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
+    <section id="livro1" class="book-section section-pad" data-progress-tone="dark">
+      <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro I · A travessia</small></div>
+      <div class="book-heading" data-reveal><div><p class="eyebrow"><span />Livro I · A Chama do Último Reino</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true; selectedBook = 'one'">Ler primeiro capítulo <span>↗</span></button></div>
+      <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos do Livro I"><button v-for="(chapter, index) in chaptersBookOne" :key="chapter.id" type="button" :class="{ selected: activeChapterOne === index }" role="tab" :aria-selected="activeChapterOne === index" @click="activeChapterOne = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapterOne.id }}</span><span>{{ selectedChapterOne.label }}</span></div><h3>{{ selectedChapterOne.title }}</h3><p>{{ selectedChapterOne.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgressOne}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true; selectedBook = 'one'">Ler o início <span>↗</span></button></article></div>
+    </section>
+
     <section id="livro2" class="book-section book-two-section section-pad" data-progress-tone="dark">
-      <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro II · O Sangue do Guerreiro</small></div>
-      <div class="book-heading" data-reveal><div><p class="eyebrow ruby"><span />Livro II · O Sangue do Guerreiro</p><h2>Todo caminho deixa<br /><em class="em-ruby">um fragmento. O fragmento deixou um rastro.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler prólogo <span>↗</span></button></div>
-      <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
+      <div class="section-rail section-rail-light"><span>09</span><i /><small>Livro II · O Sangue do Guerreiro</small></div>
+      <div class="book-heading" data-reveal><div><p class="eyebrow ruby"><span />Livro II · O Sangue do Guerreiro</p><h2>Todo caminho deixa<br /><em class="em-ruby">um fragmento. O fragmento deixou um rastro.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true; selectedBook = 'two'">Ler prólogo <span>↗</span></button></div>
+      <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos do Livro II"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true; selectedBook = 'two'">Ler o início <span>↗</span></button></article></div>
     </section>
 
     <section class="north-section"><img :src="art.north" alt="Estrada sombria seguindo para o norte" />      <div class="north-overlay" /><div class="north-content"><img class="closing-rune" :src="art.logo" alt="" /><p class="eyebrow ruby"><span />Livro II · Em lançamento</p><h2>A estrada<br />continua <em class="em-ruby">ao norte.</em></h2><p>Quatro dias após Asterion, Dheren desperta transformado. Uma jornada até a Casa sem Sol, uma runa criada em parceria, e a estabilização da Lâmina Rubra.</p><button class="button button-primary" type="button" @click="showChapterModal = true">Ler o prólogo</button></div></section>
