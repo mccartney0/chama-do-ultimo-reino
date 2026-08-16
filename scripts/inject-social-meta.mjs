@@ -10,10 +10,12 @@ const siteUrl = (process.env.NUXT_PUBLIC_SITE_URL || "https://chama-do-ultimo-re
 const outputRoot = resolve(process.cwd(), ".output/public");
 
 const dossiers = [
-  { slug: "kael", name: "Kael Auren", role: "O ferreiro da chama azul", summary: "Kael Auren, ferreiro de Ferrosul, carrega uma chama azul que devolve nomes que o mundo tentou enterrar.", image: "/manus-storage/kael-retrato_ae7eda73.png" },
-  { slug: "dharen", name: "Dharen Varenn", role: "O Caminhante de Prata", summary: "Dharen Varenn, Caminhante de Prata, atravessa Asterion com uma espada rúnica e um laço que o impede de carregar o peso sozinho.", image: "/manus-storage/dharen-retrato_4f422802.png" },
+  { slug: "kael", name: "Kael Auren", role: "O ferreiro da chama azul", summary: "Kael Auren, ferreiro de Ferrosul, evolui no Livro II com Visão do Fluxo, Chama Arcana e a criação da Runa de Equilíbrio ao lado de Dheren.", image: "/manus-storage/kael-retrato_ae7eda73.png" },
+  { slug: "dharen", name: "Dharen Varenn", role: "O Caminhante de Prata · O Sangue do Guerreiro", summary: "Dharen Varenn desperta transformado no Livro II. Fome, Sentido Vital, Passo Rubro e Drenagem — e a Runa de Equilíbrio que preserva espaço para escolha.", image: "/manus-storage/dharen-retrato_4f422802.png" },
   { slug: "lyra", name: "Lyra", role: "A arqueira que reconstrói", summary: "Lyra, arqueira do Cervo Branco, lê cada ruína como aviso e escolhe reconstruir rotas para quem ainda precisa de companhia.", image: "/manus-storage/lyra-retrato_b043ad7e.png" },
   { slug: "mira", name: "Mira", role: "A chave sem dentes", summary: "Mira, uma chave sem dentes da Guilda dos Caminhos, transforma suspeita em método para abrir os registros que a Coroa esconde.", image: "/manus-storage/mira-retrato_236b1e36.png" },
+  { slug: "sarya", name: "Sarya", role: "A voz que recupera a própria história", summary: "Sarya recupera parte de sua história apagada no Livro II. Permanece perto da Casa por escolha própria, guardando memórias que o mundo tentou apagar.", image: "/manus-storage/lyra-retrato_b043ad7e.png" },
+  { slug: "varos", name: "Varos", role: "O filósofo da Ruptura", summary: "Varos é forçado a confrontar o limite de sua própria filosofia no Livro II quando viola o consentimento de Dheren e desencadeia a Ruptura.", image: "/manus-storage/mira-retrato_236b1e36.png" },
 ];
 
 const socialMetaKeys = new Set([

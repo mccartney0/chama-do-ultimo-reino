@@ -23,13 +23,14 @@ const art = {
   map: "/manus-storage/mapa-asterion-expedicao_984d2fe0.jpg",
   ferrosul: "/manus-storage/ferrosul-forjas_1dd3ffc2.jpg",
   casaDosEcos: "/manus-storage/casa-dos-ecos_84c5ded9.jpg",
+  casaSemSol: "/manus-storage/casa-sem-sol_f47fcdf4.jpg",
 };
 
 const navigation = [
   ["A história", "historia"],
   ["A Vigília", "vigilia"],
   ["Personagens", "personagens"],
-  ["Livro I", "livro"],
+  ["Livro II", "livro2"],
 ] as const;
 
 const characters = [
@@ -95,16 +96,18 @@ const mapRegions = [
   { name: "Nareth", note: "RUÍNAS · REGISTRO 612", tooltip: "Sinos enterrados sob as raízes", image: art.nareth, x: "76%", y: "25%", tone: "blue", sound: 264, description: "No vale circular, torres e pontes quebradas desaparecem entre raízes. Nareth guarda bibliotecas, templos e sinos enterrados que respondem a quem se aproxima com a pergunta errada." },
   { name: "Asterion", note: "CIDADE · APÓS A QUEDA", tooltip: "O coração rachado do reino", image: art.asterion, x: "58%", y: "69%", tone: "gold", sound: 220, description: "O coração rachado do reino ainda sustenta arcos, canais e caminhos cerimoniais. Entre cinzas e pedra molhada, a cidade resiste à tentativa de ser reduzida a um único nome ou rei." },
   { name: "Casa dos Ecos", note: "SANTUÁRIO · SELO FINAL", tooltip: "Toda resposta cobra uma memória", image: art.casaDosEcos, x: "26%", y: "73%", tone: "ivory", sound: 308, description: "Um santuário de círculos de pedra, poeira e memória acumulada. A Casa dos Ecos não oferece respostas prontas: exige que cada visitante reconheça a escolha escondida em seu próprio registro." },
+  { name: "Casa sem Sol", note: "DESTINO · LIVRO II", tooltip: "Onde o vermelho e o dourado aprendem a dividir o caminho", image: art.casaSemSol, x: "45%", y: "12%", tone: "ruby", sound: 110, description: "O destino da jornada do Livro II. Um lugar que não aparece nos mapas oficiais e cuja existência a Coroa prefere ignorar. Ali, o vampirismo revela ser muito anterior a Asterion — e a Convergência estabiliza a Lâmina Rubra sem apagar custos ou riscos." },
 ] as const;
 
 const allArtwork = [...conceptArt, ...asterionRecords] as const;
 
 const chapters = [
-  { id: "01", label: "A faísca", title: "Coisas que um Ferreiro Não Deveria Fazer", text: "Em Ferrosul, Kael aprende que magia, botas incendiadas e segredos de família raramente terminam bem. Quando a Coroa chega, fugir deixa de ser escolha." },
-  { id: "02", label: "A rota", title: "Encontre Nareth", text: "Uma mensagem impossível aponta para Nareth. Entre arquivos abandonados e estradas caçadas, o grupo descobre que algumas bibliotecas guardam testemunhas — não tesouros." },
-  { id: "03", label: "O vínculo", title: "Quatro Caminhos, Uma Vigília", text: "Kael e Dharen atravessam um ritual antigo e passam a compartilhar intenção. O Laço Astral não entrega força: torna impossível ignorar o que o outro carrega." },
-  { id: "04", label: "Os fragmentos", title: "Memória, Essência e Vontade", text: "Com Malgor se erguendo entre ruínas e a Coroa ocupando Asterion, os Fragmentos deixam de ser relíquias. Tornam-se perguntas sobre o que vale ser lembrado." },
-  { id: "05", label: "A escolha", title: "O Último Selo", text: "A Casa dos Ecos revela a verdade: o último selo não é uma prisão. É uma escolha. E nenhum caminho pertence a um rei quando alguém decide testemunhar." },
+  { id: "P", label: "O som do sangue", title: "Prólogo — O Som do Sangue", text: "Dheren sempre soubera escutar o silêncio. Agora ouvia três corações: Lyra, Mira e Kael — e a fome que não desaparecia mesmo depois de comer." },
+  { id: "01", label: "O despertar", title: "A Estrada Depois das Cinzas", text: "Quatro dias após Asterion, Dheren descobre que não melhora: cicatrizes que somem, feridas que fecham antes da faixa. Uma criatura na estrada testa sua nova velocidade. O vermelho aparece nas runas." },
+  { id: "02", label: "O laço", title: "O Coração que Não Para", text: "O grupo confronta a verdade. Dheren não é mais apenas o Caminhante de Prata: é alguém que ouve corações, atravessa distâncias num passo e luta contra a fome." },
+  { id: "12", label: "A rota", title: "A Casa sem Sol", text: "A jornada ao norte revela que o vampirismo é muito anterior a Asterion. Os registros das antigas Casas de Vigília mostram uma alteração vital sem origem única e sem profecia." },
+  { id: "20", label: "A runa", title: "A Runa de Equilíbrio", text: "Kael e Dheren criam juntos a Runa de Equilíbrio e o Regulador Místico — não para suprimir o vermelho, mas para preservar espaço para escolha." },
+  { id: "24", label: "A convergência", title: "O Sangue do Guerreiro", text: "A party restaura o funcionamento original da máquina inferior, realiza a primeira Convergência e estabiliza a Lâmina Rubra sem apagar custos ou riscos." },
 ] as const;
 
 const relations = [
@@ -133,6 +136,7 @@ const activeChapter = ref(0);
 const activeRelation = ref(0);
 const copied = ref(false);
 const showChapterModal = ref(false);
+const selectedBook = ref<'one' | 'two'>('two');
 const newsletterEmail = ref("");
 const newsletterState = ref<"idle" | "invalid" | "submitting" | "success">("idle");
 const showBioModal = ref(false);
@@ -275,10 +279,10 @@ onBeforeUnmount(() => {
       <div class="ember-specks" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
       <div class="hero-grid">
         <div class="hero-copy" data-reveal="left">
-          <p class="eyebrow"><span />Arquivo recuperado · Livro I</p>
+          <p class="eyebrow"><span />Arquivo recuperado · Livro II · Lançamento</p>
           <h1><em>A Chama</em><br />do Último Reino</h1>
-          <p class="hero-intro">O rei foi selado. A memória não.</p>
-          <p class="hero-summary">Oito séculos após a queda de Asterion, uma chama azul desperta nas mãos de um jovem ferreiro — e chama de volta tudo o que o mundo tentou esquecer.</p>
+          <p class="hero-intro">O rei foi selado. A memória não. <em class="em-ruby">O sangue fala.</em></p>
+          <p class="hero-summary">Quatro dias depois de Asterion, Dheren desperta transformado. O Livro II — O Sangue do Guerreiro — leva a Vigília até a Casa sem Sol, onde o vermelho e o dourado aprendem a dividir o mesmo caminho.</p>
           <div class="hero-actions">
             <button class="button button-primary" type="button" @click="scrollToId('historia')">▣ Conhecer a história</button>
             <button class="text-action" type="button" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button>
@@ -295,7 +299,7 @@ onBeforeUnmount(() => {
     </section>
 
     <section class="stat-ribbon" aria-label="Dados sobre o livro" data-reveal>
-      <div><strong>800</strong><span>anos de silêncio</span></div><div><strong>12</strong><span>capítulos e epílogo</span></div><div><strong>1</strong><span>rei que não morreu</span></div><div><strong>3</strong><span>fragmentos a proteger</span></div>
+      <div><strong>800</strong><span>anos de silêncio</span></div><div><strong>26</strong><span>capítulos e epílogo</span></div><div><strong>1</strong><span>rei que não morreu</span></div><div><strong>2</strong><span>livros em Vigília</span></div>
     </section>
 
     <section id="historia" class="story-section section-pad" data-progress-tone="light">
@@ -379,17 +383,17 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section id="livro" class="book-section section-pad" data-progress-tone="dark">
-      <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro I · A travessia</small></div>
-      <div class="book-heading" data-reveal><div><p class="eyebrow"><span />Livro I</p><h2>Todo caminho deixa<br /><em>um fragmento.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler primeiro capítulo <span>↗</span></button></div>
+    <section id="livro2" class="book-section book-two-section section-pad" data-progress-tone="dark">
+      <div class="section-rail section-rail-light"><span>08</span><i /><small>Livro II · O Sangue do Guerreiro</small></div>
+      <div class="book-heading" data-reveal><div><p class="eyebrow ruby"><span />Livro II · O Sangue do Guerreiro</p><h2>Todo caminho deixa<br /><em class="em-ruby">um fragmento. O fragmento deixou um rastro.</em></h2></div><button type="button" class="button book-read" @click="showChapterModal = true">Ler prólogo <span>↗</span></button></div>
       <div class="book-layout" data-reveal data-reveal-delay="110"><div class="chapter-list" role="tablist" aria-label="Percurso de capítulos"><button v-for="(chapter, index) in chapters" :key="chapter.id" type="button" :class="{ selected: activeChapter === index }" role="tab" :aria-selected="activeChapter === index" @click="activeChapter = index"><span>{{ chapter.id }}</span><b>{{ chapter.label }}</b><i>↗</i></button></div><article class="chapter-detail" aria-live="polite"><div class="chapter-top"><span>CAPÍTULO {{ selectedChapter.id }}</span><span>{{ selectedChapter.label }}</span></div><h3>{{ selectedChapter.title }}</h3><p>{{ selectedChapter.text }}</p><div class="chapter-progress"><i :style="{ width: `${chapterProgress}%` }" /></div><button type="button" class="chapter-link" @click="showChapterModal = true">Ler o início <span>↗</span></button></article></div>
     </section>
 
-    <section class="north-section"><img :src="art.north" alt="Estrada sombria seguindo para o norte" /><div class="north-overlay" /><div class="north-content"><img class="closing-rune" :src="art.logo" alt="" /><p class="eyebrow"><span />Após o Livro I</p><h2>A estrada<br />continua <em>ao norte.</em></h2><p>Uma nova rota, uma ferida impossível e três pessoas que já não podem fingir que não ouviram a chama.</p><button class="button button-primary" type="button" @click="showChapterModal = true">Ler o primeiro capítulo</button></div></section>
+    <section class="north-section"><img :src="art.north" alt="Estrada sombria seguindo para o norte" />      <div class="north-overlay" /><div class="north-content"><img class="closing-rune" :src="art.logo" alt="" /><p class="eyebrow ruby"><span />Livro II · Em lançamento</p><h2>A estrada<br />continua <em class="em-ruby">ao norte.</em></h2><p>Quatro dias após Asterion, Dheren desperta transformado. Uma jornada até a Casa sem Sol, uma runa criada em parceria, e a estabilização da Lâmina Rubra.</p><button class="button button-primary" type="button" @click="showChapterModal = true">Ler o prólogo</button></div></section>
 
     <section id="novidades" class="newsletter-section section-pad">
       <div class="newsletter-stamp" aria-hidden="true">✦<span>VIGÍLIA</span>✦</div>
-      <div class="newsletter-copy"><p class="eyebrow dark"><span />Correspondência da Vigília</p><h2>Quando a estrada<br />seguir, <em>saiba primeiro.</em></h2><p>Receba notícias do Livro I, novos trechos e os próximos registros recuperados de Asterion.</p></div>
+      <div class="newsletter-copy"><p class="eyebrow dark"><span />Correspondência da Vigília</p><h2>Quando a estrada<br />seguir, <em>saiba primeiro.</em></h2><p>Receba notícias dos Livros I e II, novos trechos e os próximos registros recuperados de Asterion e da Casa sem Sol.</p></div>
       <form class="newsletter-form" novalidate @submit.prevent="submitNewsletter">
         <label for="newsletter-email">Seu endereço de e-mail</label>
         <div class="newsletter-field"><input id="newsletter-email" v-model="newsletterEmail" type="email" name="email" autocomplete="email" placeholder="seu@email.com" :aria-invalid="newsletterState === 'invalid'" :disabled="newsletterState === 'submitting' || newsletterState === 'success'" required /><button type="submit" :disabled="newsletterState === 'submitting' || newsletterState === 'success'"><span v-if="newsletterState === 'submitting'" class="newsletter-spinner" aria-hidden="true" />{{ newsletterState === 'submitting' ? 'Registrando...' : newsletterState === 'success' ? 'Registro marcado' : 'Entrar na Vigília' }}<span v-if="newsletterState !== 'submitting'">{{ newsletterState === 'success' ? '✓' : '↗' }}</span></button></div>
@@ -400,7 +404,7 @@ onBeforeUnmount(() => {
       </form>
     </section>
 
-    <footer><a href="#top" @click.prevent="scrollToId('top')"><img :src="art.logo" alt="" />A Chama do Último Reino</a><span>Livro I · arquivo recuperado</span><button type="button" @click="scrollToId('top')">Voltar ao início ↑</button></footer>
+    <footer><a href="#top" @click.prevent="scrollToId('top')"><img :src="art.logo" alt="" />A Chama do Último Reino</a><span>Livro I · Livro II · arquivo recuperado</span><button type="button" @click="scrollToId('top')">Voltar ao início ↑</button></footer>
 
     <div v-if="showBioModal" class="chapter-modal-backdrop bio-backdrop" role="presentation" @click.self="showBioModal = false"><section class="chapter-modal bio-modal" :class="`bio-${selectedCharacter.tone}`" role="dialog" aria-modal="true" :aria-labelledby="`bio-${selectedCharacter.sigil}`"><button class="modal-close" type="button" aria-label="Fechar biografia" @click="showBioModal = false">×</button><div class="bio-modal-head"><i class="character-sigil bio-sigil" :class="`sigil-${selectedCharacter.sigil}`" aria-hidden="true"><b /><b /><b /></i><div><p class="eyebrow dark"><span />Registro individual</p><p class="modal-kicker">{{ selectedCharacter.archive }}</p></div></div><h2 :id="`bio-${selectedCharacter.sigil}`">{{ selectedCharacter.name }}</h2><p class="bio-role">{{ selectedCharacter.role }} · {{ selectedCharacter.sigilName }}</p><div class="bio-layout"><img :src="selectedCharacter.image" :alt="`Retrato de ${selectedCharacter.name}`" /><div class="bio-copy"><p v-for="paragraph in selectedCharacter.biography" :key="paragraph">{{ paragraph }}</p><div class="bio-fact">{{ selectedCharacter.detail }}</div></div></div><button class="modal-end" type="button" @click="showBioModal = false">Fechar registro <span>×</span></button></section></div>
 
@@ -408,6 +412,6 @@ onBeforeUnmount(() => {
 
     <div v-if="showMapModal" class="chapter-modal-backdrop map-modal-backdrop" role="presentation" @click.self="showMapModal = false"><section class="map-modal" role="dialog" aria-modal="true" :aria-labelledby="`map-record-${activeMapRegion}`"><button class="modal-close" type="button" aria-label="Fechar registro" @click="showMapModal = false">×</button><img :src="selectedMapRegion.image" :alt="selectedMapRegion.name" /><div class="map-modal-copy"><p class="eyebrow"><span />Registro de expedição</p><p class="modal-kicker">{{ selectedMapRegion.note }}</p><h2 :id="`map-record-${activeMapRegion}`">{{ selectedMapRegion.name }}</h2><p>{{ selectedMapRegion.description }}</p><div class="map-modal-actions"><button type="button" @click="selectMapRegion((activeMapRegion + mapRegions.length - 1) % mapRegions.length)">← Anterior</button><button type="button" @click="selectMapRegion((activeMapRegion + 1) % mapRegions.length)">Próximo →</button></div></div></section></div>
 
-    <div v-if="showChapterModal" class="chapter-modal-backdrop" role="presentation" @click.self="showChapterModal = false"><section class="chapter-modal" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title"><button class="modal-close" type="button" aria-label="Fechar leitura" @click="showChapterModal = false">×</button><p class="eyebrow dark"><span />Leitura de amostra</p><p class="modal-kicker">Capítulo I · Coisas que um Ferreiro Não Deveria Fazer</p><h2 id="chapter-modal-title">Uma bota incendiada<br />é um mau começo.</h2><div class="modal-rule"><i />Ferrosul · Registro inicial<i /></div><div class="chapter-excerpt"><p class="dropcap">Kael sabia três coisas sobre magia.</p><p>A primeira era que magos de verdade usavam cajados. A segunda era que magos de verdade passavam anos estudando em torres distantes, cercados por livros, velas e professores extremamente velhos.</p><p>E a terceira era que magos de verdade definitivamente não incendiavam as próprias botas tentando esquentar uma caneca de chá.</p><p>— Está queimando.</p><p>Kael continuou olhando para as próprias mãos.</p><p>— Eu sei.</p><p>— Sua bota.</p></div><button class="modal-end" type="button" @click="showChapterModal = false">Fechar a leitura <span>×</span></button></section></div>
+    <div v-if="showChapterModal" class="chapter-modal-backdrop" role="presentation" @click.self="showChapterModal = false"><section class="chapter-modal" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title"><button class="modal-close" type="button" aria-label="Fechar leitura" @click="showChapterModal = false">×</button><p class="eyebrow dark"><span />Leitura de amostra</p><div class="book-switcher"><button type="button" :class="{ 'active-book-one': selectedBook === 'one' }" @click="selectedBook = 'one'">Livro I</button><button type="button" :class="{ 'active-book-two': selectedBook === 'two' }" @click="selectedBook = 'two'">Livro II · O Sangue do Guerreiro</button></div><template v-if="selectedBook === 'one'"><p class="modal-kicker">Capítulo I · Coisas que um Ferreiro Não Deveria Fazer</p><h2 id="chapter-modal-title">Uma bota incendiada<br />é um mau começo.</h2><div class="modal-rule"><i />Ferrosul · Registro inicial<i /></div><div class="chapter-excerpt"><p class="dropcap">Kael sabia três coisas sobre magia.</p><p>A primeira era que magos de verdade usavam cajados. A segunda era que magos de verdade passavam anos estudando em torres distantes, cercados por livros, velas e professores extremamente velhos.</p><p>E a terceira era que magos de verdade definitivamente não incendiavam as próprias botas tentando esquentar uma caneca de chá.</p><p>— Está queimando.</p><p>Kael continuou olhando para as próprias mãos.</p><p>— Eu sei.</p><p>— Sua bota.</p></div></template><template v-else><p class="modal-kicker kicker-ruby">Prólogo · O Som do Sangue</p><h2 id="chapter-modal-title">Dheren sempre soubera<br /><em class="em-ruby">escutar o silêncio.</em></h2><div class="modal-rule"><i />Estradas · Quatro dias após Asterion<i /></div><div class="chapter-excerpt excerpt-ruby"><p class="dropcap">Dheren sempre soubera escutar o silêncio.</p><p>Era uma das primeiras coisas que aprendera quando ainda era jovem demais para carregar uma espada sem arrastá-la no chão. O silêncio não era ausência. Uma floresta aparentemente quieta tinha folhas tocadas pelo vento, insetos sob a terra, pequenos animais escondidos entre raízes.</p><p>Agora desejava nunca ter aprendido.</p><p>Sentado sobre uma pedra a quase cinquenta passos do acampamento, ele ouvia três corações. O primeiro era tranquilo. Lento. Lyra. O segundo possuía pequenas alterações, como se até dormindo sua dona estivesse pronta para acordar. Mira. O terceiro—</p><p>Dheren fechou os olhos. Não. Tentou escutar as árvores. O vento. O fogo quase apagado. Uma coruja. Água correndo ao longe.</p><p>Tum. Tum. Tum.</p><p>Ele abriu os olhos. Kael.</p></div></template><button class="modal-end" type="button" @click="showChapterModal = false">Fechar a leitura <span>×</span></button></section></div>
   </main>
 </template>

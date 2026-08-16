@@ -8,7 +8,7 @@ const chapters = [
   { id: "personagens", number: "03", label: "Personagens" },
   { id: "asterion", number: "04", label: "Asterion" },
   { id: "mapa", number: "05", label: "A rota" },
-  { id: "livro", number: "06", label: "Livro I" },
+  { id: "livro2", number: "06", label: "Livro II" },
 ];
 
 const activeId = ref(chapters[0].id);
